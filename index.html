@@ -1,0 +1,118 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body{
+            font-family: cormorant-garamond, serif;
+            font-weight: 300;
+            font-style: normal;
+            margin:0;
+        }
+        div{
+            text-align: center;
+            margin-top:170px;
+            margin-bottom:160px;
+        }
+        .fullScreen{
+            width:100%;
+            height:100%;
+            text-align: center;
+            /* background-color: gold; */
+            margin:0;
+            padding-top: 12%;
+        }
+        #intro{
+            font-size:64px;
+            font-family: cormorant-garamond, serif;
+            font-weight: 300;
+            font-style: normal;
+            letter-spacing: 12px;
+        }
+        a{
+            color:black;
+        }
+        a:visited{
+            color:black;
+        }
+        #footer{
+            background-color:black;
+            margin:auto;
+            color:white;
+            /* width:100vw; */
+            height: 25px;
+            padding: 20px 10%;
+            vertical-align: middle;
+            font-size:11px;
+            line-height:20px;
+            text-align: center;
+        }
+        #filterBox{
+            font-family: source-code-pro, monospace;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: fixed;
+            bottom: 5%;
+            left:5%;
+            border: black 1px solid;
+            margin:0;
+            padding:1%;
+            text-align: left;
+        }
+        .xAxis, .yAxis{
+            font-family: source-code-pro, monospace;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .line{
+            fill:none;
+            stroke:black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="fullScreen" id="intro">
+        <p>SELF-PORTRAIT<br><span style="font-style:italic; font-size:38px; vertical-align:15%; font-weight:500">as</span> ALLEGORY <span style="font-style:italic; font-size:38px; vertical-align:15%; font-weight:500">of</span></p>
+    </div>
+    <div class="fullScreen">
+        <p><i>Dimensions: social, physical, mental</i></p>
+    </div>
+    <div id="chart">
+        <svg id="charts"></svg>
+    </div>
+
+    <div id="filterBox">
+        <p><b>Filter By:</b></p>
+        <form id="filterBy">
+            <p>Predictions<br>
+            <label style="margin-right:0.5em;"><input type="checkbox" name="chart1" value="mood" checked>Mood</label><br>
+            <label style="margin-right:0.5em;"><input type="checkbox" name="chart2" value="morale" checked>Morale</label><br>
+            <label style="margin-right:0.5em;"><input type="checkbox" name="chart3" value="stress" checked>Stress</label><br>
+            <label style="margin-right:0.5em;"><input type="checkbox" name="chart4" value="fatigue" checked>Fatigue</label>
+            </p>
+            <p>Documentation<br>
+            <label style="margin-right:0.5em;"><input type="checkbox" name="documentation1" value="rituals" checked>Rituals</label><br>
+            <label style="margin-right:0.5em;"><input type="checkbox" name="documentation2" value="interventions" checked>Interventions</label>
+            </p>
+        </form>
+    </div>
+    <div id="footer">
+      Created for ITP's 2019 Unconference. <a href="https://github.com/xujenna/d3-unconference-workshop" target="new">See code here</a>.
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-database.js"></script>
+    <link rel="stylesheet" href="https://use.typekit.net/ymy2xzx.css">
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
