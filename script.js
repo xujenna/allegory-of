@@ -35,16 +35,21 @@ async function getData() {
     snapshot = await meanRef.once('value')
     let means = Object.values(snapshot.val())
     
-    let documentation = await d3.json("./documentation/doc_data.json")
+    let documentation = await d3.json("./data/doc_data.json")
+    let historicalMeans = await d3.json("./data/historical_means.json")
+    let gratitudeLog = await d3.json("./data/gratitude.json")
 
-    return { predictions, interventions, rituals, means, documentation }
+    return { predictions, interventions, rituals, means, documentation, historicalMeans, gratitudeLog }
 }
 
 getData().then(function(data){
     let margin = {top:30, right:70, bottom:60, left: 70};
-    let width = window.innerWidth * 0.75;
-    let height = data.predictions.length * 12;
+    let width = window.innerWidth * 0.9;
+    let height = data.predictions.length * 26;
 
+    data['predictions'] = data['predictions'].filter(d => d.timestamp > 1553926795)
+    
+    console.log(data)
     let chartSVG = d3.select("#charts")
         .attr("height", height + margin.top + margin.bottom + "px")
         .attr("width", width + margin.right + margin.left + "px")
@@ -55,9 +60,9 @@ getData().then(function(data){
 
     let xScale = d3.scaleLinear()
         .domain(d3.extent(data.predictions, d => d.LSTM_mood_prediction)) // needs to be difference from avg
-        .range([margin.left, width - margin.right])
-
-    let xTicks = d3.axisBottom(xScale)
+        .range([margin.left, width - 500])
+    
+    let xTicks = d3.axisTop(xScale)
         .tickSizeOuter(0)
         .tickPadding(10)
 
@@ -86,32 +91,123 @@ getData().then(function(data){
     chartSVG.append("g")
         .call(yAxis);
 
-    data.predictions.forEach((d,i) => {
-        if (d.timestamp !== null && d.timestamp * 1000 < (data.predictions[i+1].timestamp * 1000 - 24000000)){
-            let obj = {}
-            obj['LSTM_mood_prediction'] = null
-            obj['LSTM_morale_prediction'] = null
-            obj['LSTM_stress_prediction'] = null
-            obj['LSTM_fatigue_prediction'] = null
-            obj['timestamp'] = null
-            data.predictions.splice(i+1, 0, obj)
+    data.predictions.forEach((d,i,obj) => {
+        if (d.timestamp !== null && i < (obj.length -1) && d.timestamp < (data['predictions'][i+1].timestamp - 24000)){
+            let nullObj = {}
+            nullObj['LSTM_mood_prediction'] = null
+            nullObj['LSTM_morale_prediction'] = null
+            nullObj['LSTM_stress_prediction'] = null
+            nullObj['LSTM_fatigue_prediction'] = null
+            nullObj['timestamp'] = null
+            obj.splice(i+1, 0, nullObj)
         }
     })
 
-    const line = d3.line()
-        .defined(d => d.LSTM_mood_prediction !== null) // ends line when data ends
-        .x(d => xScale(d.LSTM_mood_prediction))
-        .y(d => yScale(d.timestamp * 1000));
-    
-    let moodLines = chartSVG.append("path")
-        .datum(data.predictions) // pass conventional avocado data as default
-        // .enter()
-        // .append("path")
-        .attr("class","line") // assigns general .line class
-        // .attr("stroke", d => paletteLookup[d.key])
-        .attr("d", line) // pass data to line function
-})
+    let predictionArray = Object.keys(data.predictions[0])
 
+    predictionArray.forEach(variable => {
+        const line = d3.line()
+            .defined(d => d[variable] !== null)
+            .x(d => xScale(d[variable]))
+            .y(d => yScale(d.timestamp * 1000));
+        
+        chartSVG.append("path")
+            .datum(data.predictions)
+            .attr("class", "predLine prediction " + variable.slice(5, variable.length - 11))
+            .attr("d", line)
+    })
+
+    let interventionLines = chartSVG.append("g")
+        .selectAll("line")
+        .data(data.interventions)
+        .enter()
+        .append("line")
+            .attr("x1", d => xScale(d.prediction))
+            .attr("x2", xScale.range()[1])
+            .attr("y1", d => yScale(d.timestamp * 1000))
+            .attr("y2", d => yScale(d.timestamp * 1000))
+            .attr("class", d => d.marker + " interventions interventionLine")
+    let interventionPTS = chartSVG.append("g")
+        .selectAll("circle")
+        .data(data.interventions)
+        .enter()
+        .append("circle")
+            .attr("class", d => "interventions interventionPTS " + d.marker)
+            .attr("cx", d => xScale(d.prediction))
+            .attr("cy", d => yScale(d.timestamp * 1000))
+            .attr("r", 4)
+    let interventionText = chartSVG.append("g")
+        .selectAll("text")
+        .data(data.interventions)
+        .enter()
+        .append("text")
+            .attr("class", d => "interventions interventionTXT " + d.marker)
+            .attr("x", xScale.range()[1])
+            .attr("y", d => yScale(d.timestamp * 1000))
+            .text(d => d.content)
+        .on("click", d => {
+            let idName = "intervention" + d.timestamp.toString().split(".")[0]
+            if(document.getElementById(idName)){
+                let deet = d3.select("#" + idName)
+                if(deet.style("display") == "none"){
+                    deet.style("display", "block")
+                }
+                else{
+                    deet.style("display", "none")
+                }
+            }
+            else{
+                d3.select("#chart").append("div")
+                    .html("<p><b>Marker: </b>" + d.marker + "<br>" + "<p><b>Intervention: </b>" + d.intervention + "<br>" + "<p><b>Content: </b>" + d.content + "</p>")
+                    .attr("class", "deets interventions " + d.marker)
+                    .attr("id", idName)
+                    .style('left', d3.event.pageX - margin.left - margin.right + 'px')
+                    .style('top', d3.event.pageY - margin.top - margin.bottom + 'px');
+            }
+        })
+
+
+    let lineChoice = document.getElementById("filterBy");
+
+    lineChoice.oninput = (event) => {
+        let selected = d3.selectAll("." + event.target.value)
+        let toggle = event.target.checked
+        selected.classed("hide", !toggle)
+        }
+    }
+
+    //         let cities = svg.append("g")
+//             .selectAll("circle")
+//             .data(Object.keys(cityCoordLookup))
+//             .enter()
+//             .append("circle")
+//             .attr("cx", d => projection(cityCoordLookup[d][0])[0]) // projection returns an array of 2 points, get first point for x coordinate
+//             .attr("cy", d => projection(cityCoordLookup[d][0])[1]) // get second point for y coordinate
+//             .attr("r", 7)
+//             .attr("fill", d => color(regionalRollup['conventional'][d])) // look up price for current city, get color assigned to that number
+//             .attr("class", "cityPoints")
+//             .on('mouseover', d => { // add an event listener for tooltip for each circle
+//                 tooltip
+//                   .transition()
+//                   .duration(100)
+//                   .style('display', "block"); // reveal div (default is display:none)
+//                 tooltip
+//                   .html("<b>"+d+":</b><br>" + "$" + Math.round(regionalRollup[mapChoice.radio.value][d] * 100) /100) // actual text of tooltip
+//                   .style('left', d3.event.pageX - 60 + 'px')
+//                   .style('top', d3.event.pageY - 220 + 'px');
+//               })
+//               .on('mouseout', () => {
+//                 tooltip
+//                   .transition()
+//                   .duration(500)
+//                   .style('display', "none");
+//               });
+    // function expand(node){
+    //     yScale(node.timestamp * 2000)
+    //     chartSG.select(".xAxis")
+    //         .call(xAxis)
+    // }
+})
 
 // var t = d3.transition()
 //         .duration(50)
