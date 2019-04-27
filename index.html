@@ -9,10 +9,6 @@
             margin:0;
             background-color:#fffbe5;
         }
-        div{
-            margin-top:170px;
-            margin-bottom:160px;
-        }
         .fullScreen{
             width:100%;
             height:100%;
@@ -46,6 +42,9 @@
             line-height:20px;
             text-align: center;
         }
+        #chart{
+            position:relative;
+        }
         #filterBox{
             font-family: source-code-pro, monospace;
             font-weight: 400;
@@ -65,21 +64,53 @@
             font-family: source-code-pro, monospace;
             font-weight: 400;
             font-style: normal;
-            font-size: 12px;
-            letter-spacing: 1px;
+            font-size: 11px;
             text-transform: uppercase;
         }
-        .predLine{
-            fill:none;
-            stroke-width:2;
+        .mood{
+            stroke: fuchsia;
+            fill: fuchsia;
+            opacity: 0.35;
         }
-        .interventionLine{
+        .morale{
+            stroke: gold;
+            fill: gold;
+            opacity: 0.45;
+        }
+        .stress{
+            stroke: blue;
+            fill: blue;
+            opacity: 0.65;
+        }
+        .fatigue{
+            stroke: lavender;
+            fill: lavender;
+            opacity: 0.4;
+        }
+        /* .predLine{
+            stroke-width:2;
+            fill:none;
+        } */
+        .predArea{
+            stroke-width:1;
+        }
+        .interventionLine, .ritualLine, .docLine{
+            fill: none;
             stroke-width: 1;
             stroke-dasharray: 2;
+            opacity: 1;
+            /* stroke:black; */
         }
-        .interventionPTS{
+        .ritualLine, .ritualPTS{
+            stroke:black;
+        }
+        .docline{
+            stroke: black;
+        }
+        .interventionPTS, .ritualPTS{
             fill: #fffbe5;
-            stroke-width: 2;
+            stroke-width: 1;
+            opacity: 1;
         }
         .deets{
             font-family: source-code-pro, monospace;
@@ -89,25 +120,21 @@
             position: absolute;
             background-color: white;
             width: 350px;
+            opacity: 1;
+            position:absolute;
         }
-        .mood{
-            stroke: fuchsia;
-        }
-        .morale{
-            stroke: gold;
-        }
-        .stress{
-            stroke: blue;
-        }
-        .fatigue{
-            stroke: lavender;
-        }
-        .interventionTXT{
+        .interventionTXT, .ritualTXT{
             stroke-width:0;
             cursor: pointer;
+            opacity: 1;
+            font-size:17px;
+            /* fill: black; */
         }
         .hide{
             opacity:0;
+        }
+        .documentation{
+            position:absolute;
         }
     </style>
 </head>

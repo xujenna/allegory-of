@@ -1,278 +1,477 @@
 [
   {
-    "timestamp": 1553969101.0,
-    "fileName": "1969-12-31 07.00.00 1.jpg"
+    "timestamp": 1554013278.0,
+    "fileName": "1969-12-31 07.00.00 1.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1554918562.0,
-    "fileName": "1969-12-31 07.00.00 10.jpg"
+    "timestamp": 1555223266.0,
+    "fileName": "1969-12-31 07.00.00 10.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1554918334.0,
-    "fileName": "1969-12-31 07.00.00 11.jpg"
+    "timestamp": 1555223267.0,
+    "fileName": "1969-12-31 07.00.00 11.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1554918148.0,
-    "fileName": "1969-12-31 07.00.00 12.jpg"
+    "timestamp": 1555223268.0,
+    "fileName": "1969-12-31 07.00.00 12.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1554315110.0,
-    "fileName": "1969-12-31 07.00.00 13.jpg"
+    "timestamp": 1555223269.0,
+    "fileName": "1969-12-31 07.00.00 13.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1554318906.0,
-    "fileName": "1969-12-31 07.00.00 14.jpg"
+    "timestamp": 1555223270.0,
+    "fileName": "1969-12-31 07.00.00 14.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1554918148.0,
-    "fileName": "1969-12-31 07.00.00 15.jpg"
+    "timestamp": 1555224053.0,
+    "fileName": "1969-12-31 07.00.00 15.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1555722018.0,
-    "fileName": "1969-12-31 07.00.00 16.jpg"
+    "timestamp": 1555797571.0,
+    "fileName": "1969-12-31 07.00.00 16.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1555823031.0,
-    "fileName": "1969-12-31 07.00.00 17.jpg"
+    "timestamp": 1555825809.0,
+    "fileName": "1969-12-31 07.00.00 17.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1555823073.0,
-    "fileName": "1969-12-31 07.00.00 18.jpg"
+    "timestamp": 1555825810.0,
+    "fileName": "1969-12-31 07.00.00 18.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1555823106.0,
-    "fileName": "1969-12-31 07.00.00 19.jpg"
+    "timestamp": 1555825811.0,
+    "fileName": "1969-12-31 07.00.00 19.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1553969205.0,
-    "fileName": "1969-12-31 07.00.00 2.jpg"
+    "timestamp": 1554013279.0,
+    "fileName": "1969-12-31 07.00.00 2.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1555822154.0,
-    "fileName": "1969-12-31 07.00.00 20.jpg"
+    "timestamp": 1555825811.0,
+    "fileName": "1969-12-31 07.00.00 20.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1553969303.0,
-    "fileName": "1969-12-31 07.00.00 3.jpg"
+    "timestamp": 1555910763.0,
+    "fileName": "1969-12-31 07.00.00 21.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1553969506.0,
-    "fileName": "1969-12-31 07.00.00 4.jpg"
+    "timestamp": 1555910763.0,
+    "fileName": "1969-12-31 07.00.00 22.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1553969904.0,
-    "fileName": "1969-12-31 07.00.00 5.jpg"
+    "timestamp": 1555910763.0,
+    "fileName": "1969-12-31 07.00.00 23.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1553970302.0,
-    "fileName": "1969-12-31 07.00.00 6.jpg"
+    "timestamp": 1555910763.0,
+    "fileName": "1969-12-31 07.00.00 24.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1554318934.0,
-    "fileName": "1969-12-31 07.00.00 7.jpg"
+    "timestamp": 1555910763.0,
+    "fileName": "1969-12-31 07.00.00 25.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1554315110.0,
-    "fileName": "1969-12-31 07.00.00 8.jpg"
+    "timestamp": 1556312008.0,
+    "fileName": "1969-12-31 07.00.00 26.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1555087805.0,
-    "fileName": "1969-12-31 07.00.00 9.jpg"
+    "timestamp": 1556312068.0,
+    "fileName": "1969-12-31 07.00.00 27.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1553453828.0,
-    "fileName": "2019-03-24 03.33.38 1.jpg"
+    "timestamp": 1556312306.0,
+    "fileName": "1969-12-31 07.00.00 28.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1553453604.0,
-    "fileName": "2019-03-24 04.29.00 1.jpg"
+    "timestamp": 1554013280.0,
+    "fileName": "1969-12-31 07.00.00 3.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1553454607.0,
-    "fileName": "2019-03-24 04.31.11 1.jpg"
+    "timestamp": 1554013281.0,
+    "fileName": "1969-12-31 07.00.00 4.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1553277750.0,
-    "fileName": "20190322_140218.jpg"
+    "timestamp": 1554013282.0,
+    "fileName": "1969-12-31 07.00.00 5.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1553363697.0,
-    "fileName": "20190323_135448.jpg"
+    "timestamp": 1554013283.0,
+    "fileName": "1969-12-31 07.00.00 6.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1553538058.0,
-    "fileName": "20190325_142050.jpg"
+    "timestamp": 1554443213.0,
+    "fileName": "1969-12-31 07.00.00 7.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1553621149.0,
-    "fileName": "20190326_132540.jpg"
+    "timestamp": 1554443214.0,
+    "fileName": "1969-12-31 07.00.00 8.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1553795600.0,
-    "fileName": "20190328_135311.jpg"
+    "timestamp": 1555223265.0,
+    "fileName": "1969-12-31 07.00.00 9.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1554144209.0,
-    "fileName": "20190401_144318.jpg"
+    "timestamp": 1553481294.0,
+    "fileName": "2019-03-24 03.33.38 1.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1554228477.0,
-    "fileName": "20190402_140749.jpg"
+    "timestamp": 1553481294.0,
+    "fileName": "2019-03-24 04.29.00 1.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1554373248.0,
-    "fileName": "20190404_062036.jpg"
+    "timestamp": 1553481293.0,
+    "fileName": "2019-03-24 04.31.11 1.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1553292150.0,
+    "fileName": "20190322_140218.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1553481532.0,
+    "fileName": "20190323_135448.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1553552458.0,
+    "fileName": "20190325_142050.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1553635548.0,
+    "fileName": "20190326_132540.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1553810000.0,
+    "fileName": "20190328_135311.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1554158608.0,
+    "fileName": "20190401_144318.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1554242876.0,
+    "fileName": "20190402_140749.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1554387648.0,
+    "fileName": "20190404_062036.jpg",
+    "extension": ".jpg"
   },
   {
     "timestamp": 1554387860.0,
-    "fileName": "20190404_062344.mp4"
+    "fileName": "20190404_062344.mp4",
+    "extension": ".mp4"
   },
   {
-    "timestamp": 1554375015.0,
-    "fileName": "20190404_065005.jpg"
+    "timestamp": 1554389414.0,
+    "fileName": "20190404_065005.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1554744078.0,
-    "fileName": "20190408_132108.jpg"
+    "timestamp": 1554758478.0,
+    "fileName": "20190408_132108.jpg",
+    "extension": ".jpg"
   },
   {
-    "timestamp": 1554766815.0,
-    "fileName": "20190408_194015.jpg"
-  },
-  {
-    "timestamp": 1555266368.0,
-    "fileName": "20190414_142608.jpg"
-  },
-  {
-    "timestamp": 1555267140.0,
-    "fileName": "20190414_143900.jpg"
-  },
-  {
-    "timestamp": 1555267194.0,
-    "fileName": "20190414_143954.jpg"
-  },
-  {
-    "timestamp": 1555267295.0,
-    "fileName": "20190414_144135.jpg"
-  },
-  {
-    "timestamp": 1555273976.0,
-    "fileName": "20190414_144351_1.mp4"
-  },
-  {
-    "timestamp": 1555268449.0,
-    "fileName": "20190414_150049.jpg"
+    "timestamp": 1554781214.0,
+    "fileName": "20190408_194015.jpg",
+    "extension": ".jpg"
   },
   {
     "timestamp": 1555273977.0,
-    "fileName": "20190414_154840-ANIMATION.gif"
-  },
-  {
-    "timestamp": 1555394374.0,
-    "fileName": "20190416_015910.jpg"
-  },
-  {
-    "timestamp": 1555783347.0,
-    "fileName": "20190420_140211.jpg"
-  },
-  {
-    "timestamp": 1555224275.0,
-    "fileName": "2019_04_13_02_17_22.mp3"
-  },
-  {
-    "timestamp": 1555224272.0,
-    "fileName": "2019_04_13_02_21_03.mp3"
-  },
-  {
-    "timestamp": 1555287887.0,
-    "fileName": "2019_04_14_20_19_19.mp3"
-  },
-  {
-    "timestamp": 1555661545.0,
-    "fileName": "2019_04_19_04_08_06.mp3"
+    "fileName": "20190414_142608.jpg",
+    "extension": ".jpg"
   },
   {
     "timestamp": 1555273976.0,
-    "fileName": "BVR_2019_04_14_14_34_19_1.mp4"
+    "fileName": "20190414_143900.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1555273976.0,
+    "fileName": "20190414_143954.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1555273976.0,
+    "fileName": "20190414_144135.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1555273976.0,
+    "fileName": "20190414_144351_1.mp4",
+    "extension": ".mp4"
+  },
+  {
+    "timestamp": 1555273976.0,
+    "fileName": "20190414_150049.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1555273977.0,
+    "fileName": "20190414_154840-ANIMATION.gif",
+    "extension": ".gif"
+  },
+  {
+    "timestamp": 1555408774.0,
+    "fileName": "20190416_015910.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1555797746.0,
+    "fileName": "20190420_140211.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1555863925.0,
+    "fileName": "20190421_122346.mp4",
+    "extension": ".mp4"
+  },
+  {
+    "timestamp": 1555864080.0,
+    "fileName": "20190421_122534.mp4",
+    "extension": ".mp4"
+  },
+  {
+    "timestamp": 1555910763.0,
+    "fileName": "20190421_224741.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1555999883.0,
+    "fileName": "20190423_015142.jpg",
+    "extension": ".jpg"
+  },
+  {
+    "timestamp": 1556171091.0,
+    "fileName": "20190424_171354.mp4",
+    "extension": ".mp4"
+  },
+  {
+    "timestamp": 1555136242.0,
+    "fileName": "2019_04_13_02_17_22.mp3",
+    "extension": ".mp3"
+  },
+  {
+    "timestamp": 1555136463.0,
+    "fileName": "2019_04_13_02_21_03.mp3",
+    "extension": ".mp3"
+  },
+  {
+    "timestamp": 1555287559.0,
+    "fileName": "2019_04_14_20_19_19.mp3",
+    "extension": ".mp3"
+  },
+  {
+    "timestamp": 1555661286.0,
+    "fileName": "2019_04_19_04_08_06.mp3",
+    "extension": ".mp3"
+  },
+  {
+    "timestamp": 1555902176.0,
+    "fileName": "2019_04_21_23_02_56.mp3",
+    "extension": ".mp3"
+  },
+  {
+    "timestamp": 1555962451.0,
+    "fileName": "2019_04_22_15_47_31.mp3",
+    "extension": ".mp3"
+  },
+  {
+    "timestamp": 1556003984.0,
+    "fileName": "2019_04_23_03_19_44.mp3",
+    "extension": ".mp3"
+  },
+  {
+    "timestamp": 1556143489.0,
+    "fileName": "2019_04_24_18_04_49.mp3",
+    "extension": ".mp3"
+  },
+  {
+    "timestamp": 1556143657.0,
+    "fileName": "2019_04_24_18_07_37.mp3",
+    "extension": ".mp3"
+  },
+  {
+    "timestamp": 1556233222.0,
+    "fileName": "2019_04_25_19_00_22.mp3",
+    "extension": ".mp3"
+  },
+  {
+    "timestamp": 1556259161.0,
+    "fileName": "2019_04_26_02_12_41.mp3",
+    "extension": ".mp3"
+  },
+  {
+    "timestamp": 1556333569.0,
+    "fileName": "2019_04_26_22_52_49.mp3",
+    "extension": ".mp3"
+  },
+  {
+    "timestamp": 1555273976.0,
+    "fileName": "BVR_2019_04_14_14_34_19_1.mp4",
+    "extension": ".mp4"
   },
   {
     "timestamp": 1554678178.0,
-    "fileName": "giphy1125470498561223121.gif"
+    "fileName": "giphy1125470498561223121.gif",
+    "extension": ".gif"
+  },
+  {
+    "timestamp": 1556257100.0,
+    "fileName": "giphy1276352304862877407.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1555287913.0,
-    "fileName": "giphy2950668355498259064.gif"
+    "fileName": "giphy2950668355498259064.gif",
+    "extension": ".gif"
+  },
+  {
+    "timestamp": 1556232138.0,
+    "fileName": "giphy3145796883448667523.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1555568572.0,
-    "fileName": "giphy3715921890747473900.gif"
+    "fileName": "giphy3715921890747473900.gif",
+    "extension": ".gif"
+  },
+  {
+    "timestamp": 1555897466.0,
+    "fileName": "giphy3967216314839285316.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1555808116.0,
-    "fileName": "giphy4484503144220536791.gif"
+    "fileName": "giphy4484503144220536791.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1553319702.0,
-    "fileName": "giphy4690459322237533602.gif"
+    "fileName": "giphy4690459322237533602.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1555214388.0,
-    "fileName": "giphy5130586187494808782.gif"
+    "fileName": "giphy5130586187494808782.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1555806600.0,
-    "fileName": "giphy7091614144149272673.gif"
+    "fileName": "giphy7091614144149272673.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1555659325.0,
-    "fileName": "giphy7463353765670051813.gif"
+    "fileName": "giphy7463353765670051813.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1554123046.0,
-    "fileName": "giphy7808583895807488570.gif"
+    "fileName": "giphy7808583895807488570.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1555100892.0,
-    "fileName": "giphy8435421102494418880.gif"
+    "fileName": "giphy8435421102494418880.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1554123412.0,
-    "fileName": "giphy8458267217068522929.gif"
+    "fileName": "giphy8458267217068522929.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1554532670.0,
-    "fileName": "giphy866313623136627855.gif"
+    "fileName": "giphy866313623136627855.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1554122592.0,
-    "fileName": "giphy8857114964957093155.gif"
+    "fileName": "giphy8857114964957093155.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1555213796.0,
-    "fileName": "giphy9033468545826979185.gif"
+    "fileName": "giphy9033468545826979185.gif",
+    "extension": ".gif"
+  },
+  {
+    "timestamp": 1556213693.0,
+    "fileName": "giphy9103671832124302524.gif",
+    "extension": ".gif"
+  },
+  {
+    "timestamp": 1556341359.0,
+    "fileName": "giphy9196878403229479646.gif",
+    "extension": ".gif"
   },
   {
     "timestamp": 1555148798.0,
-    "fileName": "Screenshot_20190413-014639_Duolingo.jpg"
+    "fileName": "Screenshot_20190413-014639_Duolingo.jpg",
+    "extension": ".jpg"
   },
   {
     "timestamp": 1555206810.0,
-    "fileName": "Screenshot_20190413-175331_Duolingo.jpg"
+    "fileName": "Screenshot_20190413-175331_Duolingo.jpg",
+    "extension": ".jpg"
   },
   {
     "timestamp": 1555408230.0,
-    "fileName": "Screenshot_20190416-015031_Maps.jpg"
+    "fileName": "Screenshot_20190416-015031_Maps.jpg",
+    "extension": ".jpg"
   },
   {
     "timestamp": 1555567934.0,
-    "fileName": "Screenshot_20190418-012749_Duolingo.jpg"
+    "fileName": "Screenshot_20190418-012749_Duolingo.jpg",
+    "extension": ".jpg"
   },
   {
     "timestamp": 1555794458.0,
-    "fileName": "Screenshot_20190420-130738_Duolingo.jpg"
+    "fileName": "Screenshot_20190420-130738_Duolingo.jpg",
+    "extension": ".jpg"
   },
   {
     "timestamp": 1555795014.0,
-    "fileName": "Screenshot_20190420-131655_Duolingo.jpg"
+    "fileName": "Screenshot_20190420-131655_Duolingo.jpg",
+    "extension": ".jpg"
   }
 ]

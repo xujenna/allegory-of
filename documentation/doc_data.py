@@ -24,6 +24,7 @@ for doc in docs:
         timestamp = time.mktime(timezone_date_time_obj.timetuple())
         fileInfo['timestamp'] = timestamp
         fileInfo['fileName'] = doc
+        fileInfo['extension'] = extension
     if(extension == ".mp3"):
         timeStr = doc[0:-4]
         date_time_obj = datetime.datetime.strptime(timeStr, "%Y_%m_%d_%H_%M_%S")
@@ -31,15 +32,16 @@ for doc in docs:
         timestamp = time.mktime(timezone_date_time_obj.timetuple())
         fileInfo['timestamp'] = timestamp
         fileInfo['fileName'] = doc
+        fileInfo['extension'] = extension
     else:
         b_time = os.stat("./files/" + doc).st_birthtime
         c_time = os.stat("./files/" + doc).st_ctime
         m_time = os.stat("./files/" + doc).st_mtime
-        fileInfo['timestamp'] = min(float(s) for s in [b,c,m])
+        fileInfo['timestamp'] = min(float(s) for s in [b_time,c_time,m_time])
         fileInfo['fileName'] = doc
+        fileInfo['extension'] = extension
 
     doc_data.append(fileInfo)
-
 
 with open("../data/doc_data.json", "w") as outfile:
     json.dump(doc_data, outfile, indent=2)

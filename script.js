@@ -45,7 +45,8 @@ async function getData() {
 getData().then(function(data){
     let margin = {top:30, right:70, bottom:60, left: 70};
     let width = window.innerWidth * 0.9;
-    let height = data.predictions.length * 26;
+    let height = data.predictions.length * 30;
+    let axisWidth = width * 0.3
 
     data['predictions'] = data['predictions'].filter(d => d.timestamp > 1553926795)
     
@@ -59,21 +60,24 @@ getData().then(function(data){
         .range([height - margin.bottom, margin.top])
 
     let xScale = d3.scaleLinear()
+        // .domain([d3.min(data.predictions, d => d.LSTM_morale_prediction),d3.max(data.predictions, d=> d.LSTM_stress_prediction)])
         .domain(d3.extent(data.predictions, d => d.LSTM_mood_prediction)) // needs to be difference from avg
-        .range([margin.left, width - 500])
+        .range([margin.left, axisWidth])
     
     let xTicks = d3.axisTop(xScale)
+        .ticks(5)
         .tickSizeOuter(0)
         .tickPadding(10)
 
     let yTicks = d3.axisLeft(yScale)
         // .tickFormat(d => "$" + d)
         // .tickSize(-(width-margin.right-margin.left))
+        .ticks(d3.timeMinute.every(120))
         .tickSizeOuter(0)
         .tickPadding(10)
 
     let xAxis = g => g
-        // .attr("transform", "translate(0,"+(height-margin.bottom)+")") // move x axis to bottom of chart
+        .attr("transform", "translate(0,"+(margin.top)+")") // move x axis to bottom of chart
         .call(xTicks)
         .call(g => g.select(".tick:first-of-type text").remove()) // removes first label on x axis
         .call(g => g.select(".tick:first-of-type line").remove()) // removes first tick on x axis
@@ -92,7 +96,7 @@ getData().then(function(data){
         .call(yAxis);
 
     data.predictions.forEach((d,i,obj) => {
-        if (d.timestamp !== null && i < (obj.length -1) && d.timestamp < (data['predictions'][i+1].timestamp - 24000)){
+        if (d.timestamp !== null && i < (obj.length -1) && d.timestamp < (data['predictions'][i+1].timestamp - 30000)){
             let nullObj = {}
             nullObj['LSTM_mood_prediction'] = null
             nullObj['LSTM_morale_prediction'] = null
@@ -104,17 +108,25 @@ getData().then(function(data){
     })
 
     let predictionArray = Object.keys(data.predictions[0])
+    predictionArray.pop()
+    predictionArray = predictionArray.reverse()
 
     predictionArray.forEach(variable => {
         const line = d3.line()
             .defined(d => d[variable] !== null)
             .x(d => xScale(d[variable]))
-            .y(d => yScale(d.timestamp * 1000));
-        
+            .y(d => yScale(d.timestamp * 1000))
+            // .y0(yScale(0))
+        const area = d3.area()
+            .defined(d => d[variable] !== null)
+            .x1(d => xScale(d[variable]))
+            .y(d => yScale(d.timestamp * 1000))
+            .x0(xScale.range()[0])
+
         chartSVG.append("path")
             .datum(data.predictions)
-            .attr("class", "predLine prediction " + variable.slice(5, variable.length - 11))
-            .attr("d", line)
+            .attr("class", "predArea prediction " + variable.slice(5, variable.length - 11))
+            .attr("d", area)
     })
 
     let interventionLines = chartSVG.append("g")
@@ -123,7 +135,7 @@ getData().then(function(data){
         .enter()
         .append("line")
             .attr("x1", d => xScale(d.prediction))
-            .attr("x2", xScale.range()[1])
+            .attr("x2", xScale.range()[1] + 100)
             .attr("y1", d => yScale(d.timestamp * 1000))
             .attr("y2", d => yScale(d.timestamp * 1000))
             .attr("class", d => d.marker + " interventions interventionLine")
@@ -135,14 +147,15 @@ getData().then(function(data){
             .attr("class", d => "interventions interventionPTS " + d.marker)
             .attr("cx", d => xScale(d.prediction))
             .attr("cy", d => yScale(d.timestamp * 1000))
-            .attr("r", 4)
+            .attr("r", 3)
     let interventionText = chartSVG.append("g")
         .selectAll("text")
         .data(data.interventions)
         .enter()
         .append("text")
             .attr("class", d => "interventions interventionTXT " + d.marker)
-            .attr("x", xScale.range()[1])
+            .attr("id", d => "text" + d.timestamp)
+            .attr("x", xScale.range()[1]+ 104)
             .attr("y", d => yScale(d.timestamp * 1000))
             .text(d => d.content)
         .on("click", d => {
@@ -161,11 +174,106 @@ getData().then(function(data){
                     .html("<p><b>Marker: </b>" + d.marker + "<br>" + "<p><b>Intervention: </b>" + d.intervention + "<br>" + "<p><b>Content: </b>" + d.content + "</p>")
                     .attr("class", "deets interventions " + d.marker)
                     .attr("id", idName)
-                    .style('left', d3.event.pageX - margin.left - margin.right + 'px')
-                    .style('top', d3.event.pageY - margin.top - margin.bottom + 'px');
+                    .style("left", xScale.range()[1]+ 104)
+                    .style("top", yScale(d.timestamp * 1000))
+                    // .style('left', d3.event.pageX - margin.left - margin.right + 'px')
+                    // .style('top', d3.event.pageY - margin.top - margin.bottom + 'px');
             }
         })
 
+    let ritualLines = chartSVG.append("g")
+        .selectAll("line")
+        .data(data['rituals'].filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness"))
+        .enter()
+        .append("line")
+            .attr("x1", xScale.range()[0])
+            .attr("x2", xScale.range()[1] + 100)
+            .attr("y1", d => yScale(d.timestamp * 1000))
+            .attr("y2", d => yScale(d.timestamp * 1000))
+            .attr("class", "rituals ritualLine")
+    let ritualPTS = chartSVG.append("g")
+        .selectAll("circle")
+        .data(data['rituals'].filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness"))
+        .enter()
+        .append("circle")
+            .attr("class", d => "rituals ritualPTS")
+            .attr("cx", xScale.range()[0])
+            .attr("cy", d => yScale(d.timestamp * 1000))
+            .attr("r", 3)
+    let ritualText = chartSVG.append("g")
+        .selectAll("text")
+        .data(data['rituals'].filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness"))
+        .enter()
+        .append("text")
+            .attr("class", "rituals ritualTXT")
+            .attr("x", xScale.range()[1]+ 104)
+            .attr("y", d => yScale(d.timestamp * 1000))
+            .text(d => d.content)
+        .on("click", d => {
+            let idName = "intervention" + d.timestamp.toString().split(".")[0]
+            if(document.getElementById(idName)){
+                let deet = d3.select("#" + idName)
+                if(deet.style("display") == "none"){
+                    deet.style("display", "block")
+                }
+                else{
+                    deet.style("display", "none")
+                }
+            }
+            else{
+                d3.select("#chart").append("div")
+                    .html("<p><b>Ritual: </b>" + d.ritual + "<br>" + "<p><b>Content: </b>" + d.content + "</p>")
+                    .attr("class", "deets rituals")
+                    .attr("id", idName)
+                    .style("left", xScale.range()[1]+ 104)
+                    .style("top", yScale(d.timestamp * 1000))
+            }
+        })
+    
+    let documentation = d3.select("#chart")
+        .selectAll("div")
+        .data(data.documentation)
+        .enter()
+        .append("div")
+            .attr("class", d => d.extension.slice(1,d.extension.length) + " documentation")
+            .attr("id", d => "doc" + d.timestamp)
+            .style("left", (d,i) => {
+                // console.log(data['documentation'][i-1])
+                if(i<(data.documentation.length-1) && d.timestamp < (data['documentation'][i-1].timestamp + 60 * 60)){
+                    return xScale.range()[1] + 650 + document.getElementById("doc" + data['documentation'][i-1].timestamp).getBoundingClientRect().width;
+                }
+                else {
+                    return xScale.range()[1] + 650
+                }
+            })
+            .style("top", d => yScale(d.timestamp * 1000))
+            .html(d => {
+                if(d.extension == ".jpg"){
+                    return "<img src='documentation/files/"+ d.fileName + "' width='55%'>"
+                }
+                else if (d.extension == ".gif"){
+                    return "<img src='documentation/files/"+ d.fileName + "' width='55%'>"
+                }
+                else if (d.extension == ".mp3"){
+                    return "<audio controls><source src='documentation/files/" +  d.fileName + "' type='audio/mpeg'> Your browser does not support the audio element.</audio>"
+                }
+                else if (d.extension == ".mp4"){
+                    return "<video width='55%' controls><source src='documentation/files/" +  d.fileName + "' type='video/mp4'>Your browser does not support the video tag.</video>"
+                }
+            })
+            .on("hover", d => {
+                d.attr("z-index", 1000)
+            })
+    let docLines = chartSVG.append("g")
+        .selectAll("line")
+        .data(data.documentation)
+        .enter()
+        .append("line")
+            .attr("x1", xScale.range()[0])
+            .attr("x2", xScale.range()[1] + 650)
+            .attr("y1", d => yScale(d.timestamp * 1000))
+            .attr("y2", d => yScale(d.timestamp * 1000))
+            .attr("class", "documentation docLine")
 
     let lineChoice = document.getElementById("filterBy");
 
@@ -174,7 +282,7 @@ getData().then(function(data){
         let toggle = event.target.checked
         selected.classed("hide", !toggle)
         }
-    }
+    // }
 
     //         let cities = svg.append("g")
 //             .selectAll("circle")
