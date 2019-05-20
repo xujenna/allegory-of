@@ -11,18 +11,31 @@
         }
         .fullScreen{
             width:100%;
-            height:100%;
-            text-align: center;
-            /* background-color: gold; */
+            max-height:100%;
+            min-height:100%;
             margin:0;
-            padding-top: 12%;
         }
-        #intro{
-            font-size:64px;
+        #cover{
+            font-size:34px;
             font-family: cormorant-garamond, serif;
             font-weight: 300;
             font-style: normal;
             letter-spacing: 12px;
+            text-align: center;
+            background-image: url("cover_new_web_flipped.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position-x: center;
+            position:fixed;
+            top: 0%;
+            left:0%;
+            visibility: visible;
+        }
+        #title{
+            bottom:26%;
+            left:10%;
+            position:absolute;
+            color:white;
         }
         a{
             color:black;
@@ -45,21 +58,6 @@
         #chart{
             position:relative;
         }
-        #filterBox{
-            font-family: source-code-pro, monospace;
-            font-weight: 400;
-            font-style: normal;
-            font-size: 12px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            position: fixed;
-            bottom: 5%;
-            left:5%;
-            border: black 1px solid;
-            margin:0;
-            padding:1%;
-            text-align: left;
-        }
         .xAxis, .yAxis{
             font-family: source-code-pro, monospace;
             font-weight: 400;
@@ -67,39 +65,57 @@
             font-size: 11px;
             text-transform: uppercase;
         }
+        .xAxis {
+            font-size:14px;
+        }
         .mood{
             stroke: fuchsia;
             fill: fuchsia;
-            opacity: 0.35;
         }
+        /* .predArea.mood{
+            opacity: 0.3;
+        } */
         .morale{
             stroke: gold;
             fill: gold;
-            opacity: 0.45;
         }
+        /* .predArea.morale{
+            opacity: 0.4;
+        } */
         .stress{
             stroke: blue;
             fill: blue;
-            opacity: 0.65;
         }
+        /* .predArea.stress{
+            opacity: 0.6;
+        } */
         .fatigue{
             stroke: lavender;
             fill: lavender;
-            opacity: 0.4;
+            opacity:1;
         }
-        /* .predLine{
-            stroke-width:2;
-            fill:none;
+        /* .predArea.fatigue{
+            opacity: 0.35;
         } */
-        .predArea{
-            stroke-width:1;
+        .predLine{
+            stroke-width:3.5;
+            fill:none;
+            opacity: 0.5;
         }
-        .interventionLine, .ritualLine, .docLine{
+        .predLine.fatigue{
+            opacity:0.85;
+        }
+        .interventionLine, .ritualLine {
             fill: none;
             stroke-width: 1;
             stroke-dasharray: 2;
-            opacity: 1;
             /* stroke:black; */
+        }
+        .interventionLine.fatigue {
+            stroke: #8b94ba;
+        }
+        .interventionTXT.fatigue{
+            fill: #8b94ba;
         }
         .ritualLine, .ritualPTS{
             stroke:black;
@@ -108,9 +124,8 @@
             stroke: black;
         }
         .interventionPTS, .ritualPTS{
-            fill: #fffbe5;
-            stroke-width: 1;
-            opacity: 1;
+            fill:#fffbe5;
+            stroke-width: 2.5;
         }
         .deets{
             font-family: source-code-pro, monospace;
@@ -120,52 +135,192 @@
             position: absolute;
             background-color: white;
             width: 350px;
-            opacity: 1;
             position:absolute;
         }
         .interventionTXT, .ritualTXT{
             stroke-width:0;
             cursor: pointer;
-            opacity: 1;
             font-size:17px;
             /* fill: black; */
         }
         .hide{
-            opacity:0;
+            opacity:0!important;
         }
         .documentation{
             position:absolute;
+            font-family: source-code-pro, monospace;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 10.5px;
+            line-height:8px;
+        }
+        .docLine{
+            fill: none;
+            stroke-width: 0.75;
+            stroke: black;
+        }
+        .docPTS{
+            fill:black;
+            /* stroke-width: 1;
+            stroke: black; */
+        }
+        /* .docTXT{
+            font-family: source-code-pro, monospace;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 10.5px;
+            line-height:8px;
+        } */
+        #chartNav{
+            /* display:none; */
+            opacity: 0;
+            visibility: hidden;
+            -webkit-transition: opacity 600ms, visibility 600ms;
+            transition: opacity 600ms, visibility 600ms;
+        }
+        #filterBox{
+            font-family: source-code-pro, monospace;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: fixed;
+            bottom: 5%;
+            right:2%;
+            border: black 1px solid;
+            margin:0;
+            padding:1%;
+            text-align: left;
+            background-color: white;
+        }
+        #prevDay{
+            position: fixed;
+            left:0%;
+            bottom: 50%;
+            border: black 1px solid;
+            margin:0;
+            padding:1%;
+            text-align: left;
+            background-color: white;
+            cursor:pointer;
+        }
+        #nextDay{
+            position: fixed;
+            right: 2%;
+            bottom: 50%;
+            border: black 4px double;
+            margin: 0;
+            /* padding: 1%; */
+            text-align: center;
+            background-color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 34px;
+            /* vertical-align: middle; */
+            line-height: 60px;
+            cursor:pointer;
+        }
+        #gentileschi{
+            opacity: 0;
+            position:fixed;
+            top:0%;
+            right:5%;
+            text-align: right;
+            z-index: -1;
+        }
+        #gentileschi img {
+            height:120%;
+        }
+        #intro{
+            margin-top:75%;
+            padding-top: 10%;
+            padding-left: 10%;
+            width: 28%;
+            font-size:1.15em;
+            line-height: 1.35;
+            font-size:1.1em;
+            font-style: normal;
+        }
+        #video{
+            position:relative;
+            /* background-color:#fffbe5; */
+        }
+        #video iframe{
+            position: absolute;
+            top: 50%;
+            height: 535;
+            margin-top: -267.5;
+            width: 950;
+            left: 50%;
+            margin-left: -475;
+        }
+        .arrow {
+            font-size:2em;
+            transform: rotate(45deg);
+            transform-origin: left;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="fullScreen" id="intro">
-        <p>SELF-PORTRAIT<br><span style="font-style:italic; font-size:38px; vertical-align:15%; font-weight:500">as</span> ALLEGORY <span style="font-style:italic; font-size:38px; vertical-align:15%; font-weight:500">of</span></p>
+    <div class="fullScreen" id="cover">
+        <div id="title">
+            SELF-PORTRAIT <span style="font-style:italic; font-size:28px; vertical-align:10%; font-weight:500">as</span> ALLEGORY <span style="font-style:italic; font-size:28px; vertical-align:10%; font-weight:500">of</span>
+        </div>
     </div>
-    <div class="fullScreen">
-        <p><i>Dimensions: social, physical, mental</i></p>
+
+    <div id="gentileschi">
+        <img src="smaller-Self-portrait_as_the_Allegory_of_Painting_by_Artemisia_Gentileschi.jpg">
+    </div>
+
+    <div id="intro">
+        <p><i>Self-Portrait as Allegory of</i> is my masters's thesis project: a data-driven, machine-managed, sanity maintence system.</p>
+
+        <p>Adapting the conceptual format and title of an Artemisia Gentileschi painting from 1638–39, it is at once a self-portrait as depicted by personal data and predictive models, as well as an allegory to an amalgamation of scientific, cultural, and personal ideals of mental health.</p>
+
+        <p>In construction, <i>Self-Portrait as Allegory of</i> comprises three systems: data collection by a body of trackers I built to collect digital phenotypes; mood prediction by a suite of neural networks that use this data to predict my mood, morale, stress, and fatigue levels; and intervention by a noninteractive voice assistant that responds to these predictions by directing me to perform mood-improving interventions and rituals that, taken together, form a lifestyle shift that optimizes for mental health.</p>
+        
+        <p>In manifestation, the project is an n-of-one behavioral change experiment: a data-driven, AI-directed performance of a composite aspiration comprising optimizations from positive psychology, the wellness industry, self-care culture, the female-empowerment zeitgeist, and my own romanticism of past, present, and future lives forever shaped, stagnated, and propelled by my history with depression. Synthesized into actionable interventions and rituals, these frameworks form the body of allegorical symbolism for idealized mental health, which I perform throughout the day as the system sees fit. The mere act of embodying these ideals allows me to not only adopt and benefit from an optimized lifestyle in the present, but also write it into my narrative of the future.</p>
+        
+        <p>By transforming mental health maintenance—normally a consciously effortful, continuous act of self-discipline—into a simple performance of externally mandated instruction, <i>Self-Portrait as Allegory of</i> aims to bypass some of the most insidious and persistent depressive symptoms—learned helplessness, fixed mindset, and the inability to construct a future—by removing willpower, decision-making, and constant emotional monitoring out of the daily work of self-care and recovery. 
+        </p>
+
+        <p class="arrow">➳</p>
+    </div>
+    <div class="fullScreen" id="video">
+        <iframe src="https://player.vimeo.com/video/336817760" width="950" height="535" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <!-- <p><i>Dimensions: social, physical, mental</i></p> -->
     </div>
     <div id="chart">
         <svg id="charts"></svg>
     </div>
 
-    <div id="filterBox">
-        <p><b>Filter By:</b></p>
-        <form id="filterBy">
-            <p>Predictions<br>
-            <label style="margin-right:0.5em;"><input type="checkbox" name="chart1" value="mood" checked>Mood</label><br>
-            <label style="margin-right:0.5em;"><input type="checkbox" name="chart2" value="morale" checked>Morale</label><br>
-            <label style="margin-right:0.5em;"><input type="checkbox" name="chart3" value="stress" checked>Stress</label><br>
-            <label style="margin-right:0.5em;"><input type="checkbox" name="chart4" value="fatigue" checked>Fatigue</label>
-            </p>
-            <p>Documentation<br>
-            <label style="margin-right:0.5em;"><input type="checkbox" name="documentation1" value="rituals" checked>Rituals</label><br>
-            <label style="margin-right:0.5em;"><input type="checkbox" name="documentation2" value="interventions" checked>Interventions</label>
-            </p>
-        </form>
+    <div id="chartNav">
+        <div id="prevDay">
+            Previous Day
+        </div>
+        <div id="nextDay">
+            <p style="font-size:2em;margin: 0;font-style: normal;">➳</p>
+        </div>
+        <div id="filterBox">
+            <p><b>Filter By:</b></p>
+            <form id="filterBy">
+                <p>Predictions<br>
+                <label style="margin-right:0.5em;"><input type="checkbox" name="chart1" value="mood" checked>Mood</label><br>
+                <label style="margin-right:0.5em;"><input type="checkbox" name="chart2" value="morale" checked>Morale</label><br>
+                <label style="margin-right:0.5em;"><input type="checkbox" name="chart3" value="stress" checked>Stress</label><br>
+                <label style="margin-right:0.5em;"><input type="checkbox" name="chart4" value="fatigue" checked>Fatigue</label>
+                </p>
+                <p>Documentation<br>
+                <label style="margin-right:0.5em;"><input type="checkbox" name="documentation1" value="rituals" checked>Rituals</label><br>
+                <label style="margin-right:0.5em;"><input type="checkbox" name="documentation2" value="interventions" checked>Interventions</label>
+                </p>
+            </form>
+        </div>
     </div>
+
     <div id="footer">
       Created for ITP's 2019 Unconference. <a href="https://github.com/xujenna/d3-unconference-workshop" target="new">See code here</a>.
     </div>
