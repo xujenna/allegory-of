@@ -44,6 +44,9 @@
             color:black;
         }
         #footer{
+            font-family: source-code-pro, monospace;
+            font-weight: 500;
+            font-style: normal;
             background-color:black;
             margin:auto;
             color:white;
@@ -55,8 +58,12 @@
             line-height:20px;
             text-align: center;
         }
+        #footer a{
+            color:white;
+        }
         #chart{
             position:relative;
+            text-align: left;
         }
         .xAxis, .yAxis{
             font-family: source-code-pro, monospace;
@@ -66,7 +73,8 @@
             text-transform: uppercase;
         }
         .xAxis {
-            font-size:14px;
+            font-size:12px;
+            letter-spacing: 0.5;
         }
         .mood{
             stroke: fuchsia;
@@ -136,11 +144,12 @@
             background-color: white;
             width: 350px;
             position:absolute;
+            text-align: left;
         }
         .interventionTXT, .ritualTXT{
             stroke-width:0;
             cursor: pointer;
-            font-size:17px;
+            font-size:19px;
             /* fill: black; */
         }
         .hide{
@@ -153,6 +162,7 @@
             font-style: normal;
             font-size: 10.5px;
             line-height:8px;
+            text-align: left;
         }
         .docLine{
             fill: none;
@@ -194,32 +204,26 @@
             text-align: left;
             background-color: white;
         }
-        #prevDay{
-            position: fixed;
-            left:0%;
+        #prevDay, #nextDay{
             bottom: 50%;
-            border: black 1px solid;
-            margin:0;
-            padding:1%;
-            text-align: left;
-            background-color: white;
-            cursor:pointer;
-        }
-        #nextDay{
             position: fixed;
-            right: 2%;
-            bottom: 50%;
             border: black 4px double;
             margin: 0;
             /* padding: 1%; */
             text-align: center;
             background-color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 34px;
+            width: 45px;
+            height: 45px;
+            border-radius: 30px;
             /* vertical-align: middle; */
-            line-height: 60px;
+            line-height: 48px;
             cursor:pointer;
+        }
+        #prevDay{
+            left: 2%;
+        }
+        #nextDay{
+            right: 2%;
         }
         #gentileschi{
             opacity: 0;
@@ -260,10 +264,59 @@
             transform: rotate(45deg);
             transform-origin: left;
         }
+        #caption-container{
+            font-family: source-code-pro, monospace;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 10.5px;
+            line-height: 17px;
+            /* text-transform: uppercase; */
+            bottom: 3%;
+            right: 5.5%;
+            color:white;
+            position:fixed;
+            z-index:1000;
+            width:155;
+            cursor: pointer;
+            letter-spacing: 1.2;
+            word-spacing: -2.2;
+        }
+        #caption{
+            font-family: cormorant-garamond, serif;
+            font-size: 15px;
+            line-height:20px;
+            padding-top:5px;
+            letter-spacing: 0;
+            word-spacing: 0;
+            display:none;
+        }
+
+        #caption a{
+            color:white
+        }
+        .nav-arrow{
+            font-size:2em;
+            margin: 0;
+            font-style: normal;
+        }
+        #nextDayCaption, #prevDayCaption{
+            font-family: source-code-pro, monospace;
+            font-weight: 400;
+            font-style: normal;
+            line-height: 14px;
+            font-size: 10.5px;
+            margin-top: 20px;
+            display:none;
+        }
     </style>
 </head>
 
 <body>
+
+    <div id="caption-container">
+        ABOUT THIS IMAGE <span style="font-size:15px;">⌄</span>
+        <div id="caption"></div>
+    </div>
 
     <div class="fullScreen" id="cover">
         <div id="title">
@@ -276,13 +329,13 @@
     </div>
 
     <div id="intro">
-        <p><i>Self-Portrait as Allegory of</i> is my masters's thesis project: a data-driven, machine-managed, sanity maintence system.</p>
+        <p><i>Self-Portrait as Allegory of</i> is my masters's thesis project: a data-driven, machine-managed, sanity maintenance system.</p>
 
         <p>Adapting the conceptual format and title of an Artemisia Gentileschi painting from 1638–39, it is at once a self-portrait as depicted by personal data and predictive models, as well as an allegory to an amalgamation of scientific, cultural, and personal ideals of mental health.</p>
 
         <p>In construction, <i>Self-Portrait as Allegory of</i> comprises three systems: data collection by a body of trackers I built to collect digital phenotypes; mood prediction by a suite of neural networks that use this data to predict my mood, morale, stress, and fatigue levels; and intervention by a noninteractive voice assistant that responds to these predictions by directing me to perform mood-improving interventions and rituals that, taken together, form a lifestyle shift that optimizes for mental health.</p>
         
-        <p>In manifestation, the project is an n-of-one behavioral change experiment: a data-driven, AI-directed performance of a composite aspiration comprising optimizations from positive psychology, the wellness industry, self-care culture, the female-empowerment zeitgeist, and my own romanticism of past, present, and future lives forever shaped, stagnated, and propelled by my history with depression. Synthesized into actionable interventions and rituals, these frameworks form the body of allegorical symbolism for idealized mental health, which I perform throughout the day as the system sees fit. The mere act of embodying these ideals allows me to not only adopt and benefit from an optimized lifestyle in the present, but also write it into my narrative of the future.</p>
+        <p>In manifestation, the project is an n-of-one behavioral modification experiment: a data-driven, AI-directed performance of a composite aspiration comprising optimizations from positive psychology, the wellness industry, self-care culture, the female-empowerment zeitgeist, and my own romanticism of past, present, and future lives forever shaped, stagnated, and propelled by my history with depression. Synthesized into actionable interventions and rituals, these frameworks form the body of allegorical symbolism for idealized mental health, which I perform throughout the day as the system sees fit. The mere act of embodying these ideals allows me to not only adopt and benefit from an optimized lifestyle in the present, but also write it into my narrative of the future.</p>
         
         <p>By transforming mental health maintenance—normally a consciously effortful, continuous act of self-discipline—into a simple performance of externally mandated instruction, <i>Self-Portrait as Allegory of</i> aims to bypass some of the most insidious and persistent depressive symptoms—learned helplessness, fixed mindset, and the inability to construct a future—by removing willpower, decision-making, and constant emotional monitoring out of the daily work of self-care and recovery. 
         </p>
@@ -299,10 +352,12 @@
 
     <div id="chartNav">
         <div id="prevDay">
-            Previous Day
+            <p class="nav-arrow" span style="transform: rotate(180deg);">➳</p>
+            <div id="prevDayCaption">Previous Day</div>
         </div>
         <div id="nextDay">
-            <p style="font-size:2em;margin: 0;font-style: normal;">➳</p>
+            <p class="nav-arrow">➳</p>
+            <div id="nextDayCaption">Next Day</div>
         </div>
         <div id="filterBox">
             <p><b>Filter By:</b></p>
@@ -322,7 +377,7 @@
     </div>
 
     <div id="footer">
-      Created for ITP's 2019 Unconference. <a href="https://github.com/xujenna/d3-unconference-workshop" target="new">See code here</a>.
+      Created by <a href="https://xujenna.com" target="new">Jenna Xu</a> for her Master's thesis at ITP, NYU.
     </div>
 
 
