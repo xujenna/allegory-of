@@ -64,6 +64,7 @@
         #chart{
             position:relative;
             text-align: left;
+            /* padding:0 2em; */
         }
         .xAxis, .yAxis{
             font-family: source-code-pro, monospace;
@@ -171,7 +172,7 @@
             font-family: source-code-pro, monospace;
             font-weight: 500;
             font-style: normal;
-            letter-spacing: -0.55;
+            letter-spacing: -0.6;
             }
         .hide{
             opacity:0!important;
@@ -277,12 +278,12 @@
         }
         #video iframe{
             position: absolute;
-            top: 50%;
-            height: 535;
-            margin-top: -267.5;
-            width: 950;
-            left: 50%;
-            margin-left: -475;
+            top: 20%;
+            /* height: 535; */
+            /* margin-top: -267.5; */
+            width: 100%;
+            /* left: 50%; */
+            /* margin-left: -475; */
         }
         .arrow {
             font-size:2em;
@@ -333,6 +334,23 @@
             margin-top: 20px;
             display:none;
         }
+        #border-fullScreen{
+            width:100%;
+            max-height:100%;
+            min-height:100%;
+            margin:0;
+            font-size:28px;
+            font-family: cormorant-garamond, serif;
+            font-weight: 300;
+            font-style: italic;
+            letter-spacing: 12px;
+        }
+        #border-dec {
+            width:80%;
+            height:80%;
+            margin:0;
+            border: 1px solid black;
+        }
     </style>
 </head>
 
@@ -367,6 +385,10 @@
 
         <p class="arrow">➳</p>
     </div>
+    <!-- <div id="border-fullScreen">
+        <div id="border-title">EXPLAINER</div>
+        <div id="border-dec"></div>
+    </div> -->
     <div class="fullScreen" id="video">
         <iframe src="https://player.vimeo.com/video/336817760" width="950" height="535" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         <!-- <p><i>Dimensions: social, physical, mental</i></p> -->

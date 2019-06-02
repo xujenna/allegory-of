@@ -102,10 +102,10 @@ getData().then(function(data){
     let currentPredictions = data.predictions.slice(0, nullItems[nullIndex] + 1)
     // console.log(currentPredictions)
 
-    let margin = {top:30, right:70, bottom:60, left: 100};
+    let margin = {top:30, right:50, bottom:60, left: 70};
     let width = window.innerWidth * 0.8;
-    let height = currentPredictions.length * 150;
-    let axisWidth = width * 0.19
+    let height = currentPredictions.length * 100;
+    let axisWidth = width * 0.22
 
     let chartSVG = d3.select("#charts")
         .attr("height", height + margin.top + margin.bottom + "px")
@@ -584,7 +584,6 @@ let chartNav = document.getElementById('chartNav')
 let captionContainer = document.getElementById('caption-container')
 let caption = document.getElementById('caption')
 caption.style.display = "none"
-
 caption.innerHTML = "Style-transferred from <i><a href='https://en.wikipedia.org/wiki/Self-Portrait_as_the_Allegory_of_Painting' target='new'>Self-Portrait as the Allegory of Painting</a></i> using <a href='https://github.com/lengstrom/fast-style-transfer' target='new'>Fast Style Transfer</a>"
 
 captionContainer.onclick = function() {
@@ -595,6 +594,7 @@ captionContainer.onclick = function() {
         caption.style.display = "none"
     }
 }
+// let border = document.getElementById('border-fullScreen')
 
 window.onscroll = function() {
     if(window.scrollY < cover.getBoundingClientRect().height){
@@ -631,6 +631,7 @@ window.onscroll = function() {
             gentileschi.style.opacity = 0
             cover.style.visibility = "hidden"
             cover.style.opacity = 0
+            // border.style.position = "fixed"
         }
     }
     // else if(window.scrollY < intro.getBoundingClientRect().top){
