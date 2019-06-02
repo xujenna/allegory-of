@@ -106,7 +106,7 @@
             opacity: 0.35;
         } */
         .predLine{
-            stroke-width:3.5;
+            stroke-width:4.25;
             fill:none;
             opacity: 0.5;
         }
@@ -115,7 +115,7 @@
         }
         .interventionLine, .ritualLine {
             fill: none;
-            stroke-width: 1;
+            stroke-width: 1.5;
             stroke-dasharray: 2;
             /* stroke:black; */
         }
@@ -125,15 +125,19 @@
         .interventionTXT.fatigue{
             fill: #8b94ba;
         }
+        .deetline.fatigue{
+            stroke: #8b94ba;
+        }
         .ritualLine, .ritualPTS{
             stroke:black;
         }
-        .docline{
-            stroke: black;
-        }
-        .interventionPTS, .ritualPTS{
+        .interventionPTS{
             fill:#fffbe5;
-            stroke-width: 2.5;
+            stroke-width: 3;
+        }
+        .ritualPTS{
+            fill:black;
+            stroke-width:0;
         }
         .deets{
             font-family: source-code-pro, monospace;
@@ -145,13 +149,30 @@
             width: 350px;
             position:absolute;
             text-align: left;
+            padding: 1em 2em;
+        }
+        .deets.mood{
+            border-top: 6px solid fuchsia;
+        }
+        .deets.morale{
+            border-top: 6px solid gold;
+        }
+        .deets.stress{
+            border-top: 6px solid blue;
+        }
+
+        .deets.fatigue{
+            border-top: 6px solid #8b94ba;
         }
         .interventionTXT, .ritualTXT{
             stroke-width:0;
             cursor: pointer;
-            font-size:19px;
-            /* fill: black; */
-        }
+            font-size: 0.9em;
+            font-family: source-code-pro, monospace;
+            font-weight: 500;
+            font-style: normal;
+            letter-spacing: -0.55;
+            }
         .hide{
             opacity:0!important;
         }
@@ -164,9 +185,13 @@
             line-height:8px;
             text-align: left;
         }
+        .deetLine{
+            fill: none;
+            stroke-width: 1.5;
+        }
         .docLine{
             fill: none;
-            stroke-width: 0.75;
+            stroke-width: 1.5;
             stroke: black;
         }
         .docPTS{

@@ -1,5 +1,4 @@
 async function getData(){
-    console.log("getting data")
     let data = await d3.json("./data/db_data.json")
     let documentation = await d3.json("./data/doc_data.json")
     data['documentation'] = documentation
@@ -7,6 +6,9 @@ async function getData(){
     let danceTracks = await d3.json("./data/exercises.json")
     data['lookup'] = {}
     data['lookup']['danceTracks'] = danceTracks['danceTracks']
+
+    let scriptLookup = await d3.json("./data/script_lookup.json")
+    data['lookup']['scripts'] = scriptLookup
 
     let gratitudeLog = await d3.json("./data/gratitude.json")
 
@@ -20,11 +22,8 @@ async function getData(){
 
 getData().then(function(data){
 
-    console.log(data)
-
     let databases = Object.keys(data)
     databases.splice( Object.keys(data).indexOf('lookup'), 1 )
-    console.log(databases)
     databases.forEach(key => {
         data[key] = data[key].filter(d => d.timestamp > 1555164021 && d.timestamp < 1556965804)
         data[key] = data[key].map(d =>{d.timestamp = d.timestamp * 1000; return d})
@@ -98,16 +97,15 @@ getData().then(function(data){
             }
         })
     })
-    // console.log(nullItems)
-    // console.log(data.predictions.slice(0, (nullItems[0] + 1)))
-    let nullIndex = 0
-    let currentPredictions = data.predictions.slice(0, (nullItems[nullIndex] + 1))
-    console.log(currentPredictions)
 
-    let margin = {top:30, right:70, bottom:60, left: 70};
+    let nullIndex = 0
+    let currentPredictions = data.predictions.slice(0, nullItems[nullIndex] + 1)
+    // console.log(currentPredictions)
+
+    let margin = {top:30, right:70, bottom:60, left: 100};
     let width = window.innerWidth * 0.8;
     let height = currentPredictions.length * 150;
-    let axisWidth = width * 0.17
+    let axisWidth = width * 0.19
 
     let chartSVG = d3.select("#charts")
         .attr("height", height + margin.top + margin.bottom + "px")
@@ -117,8 +115,6 @@ getData().then(function(data){
         .domain([currentPredictions[0]['timestamp'], currentPredictions[currentPredictions.length - 2]['timestamp']])
         .range([height - margin.bottom, margin.top])
 
-    console.log(currentPredictions[0]['timestamp'], currentPredictions[currentPredictions.length - 2]['timestamp'])
-    console.log(yScale.domain())
     let xScale = d3.scaleLinear()
         // .domain([d3.min(data.predictions, d => d.LSTM_morale_prediction),d3.max(data.predictions, d=> d.LSTM_stress_prediction)])
         .domain([-2,2]) // needs to be difference from avg
@@ -184,104 +180,7 @@ getData().then(function(data){
             .attr("class", "predLine prediction " + variable.replace("_mean_delta", ""))
             .attr("d", line)
     })
-    // let interventionLines = chartSVG.append("g")
-    //     .selectAll("line")
-    //     .data(data['interventions'].filter(d => d.timestamp > currentPredictions[0]['timestamp'] && d.timestamp < currentPredictions[currentPredictions.length - 2]['timestamp']))
-    //     .enter()
-    //     .append("line")
-    //         .attr("x1", d => xScale(d['mean_delta']))
-    //         .attr("x2", xScale.range()[1] + 100)
-    //         .attr("y1", d => yScale(d.timestamp))
-    //         .attr("y2", d => yScale(d.timestamp))
-    //         .attr("class", d => d.marker + " interventions interventionLine")
-    // let interventionPTS = chartSVG.append("g")
-    //     .selectAll("circle")
-    //     .data(data['interventions'].filter(d => d.timestamp > currentPredictions[0]['timestamp'] && d.timestamp < currentPredictions[currentPredictions.length - 2]['timestamp']))
-    //     .enter()
-    //     .append("circle")
-    //         .attr("class", d => "interventions interventionPTS " + d.marker)
-    //         .attr("cx", d => xScale(d['mean_delta']))
-    //         .attr("cy", d => yScale(d.timestamp))
-    //         .attr("r", 3)
-    // let interventionText = chartSVG.append("g")
-    //     .selectAll("text")
-    //     .data(data['interventions'].filter(d => d.timestamp > currentPredictions[0]['timestamp'] && d.timestamp < currentPredictions[currentPredictions.length - 2]['timestamp']))
-    //     .enter()
-    //     .append("text")
-    //         .attr("class", d => "interventions interventionTXT " + d.marker)
-    //         .attr("id", d => "text" + d.timestamp)
-    //         .attr("x", xScale.range()[1]+ 104)
-    //         .attr("y", d => yScale(d.timestamp))
-    //         .text(d => d.content)
-    //     .on("click", d => {
-    //         let idName = "intervention" + d.timestamp.toString().split(".")[0]
-    //         if(document.getElementById(idName)){
-    //             let deet = d3.select("#" + idName)
-    //             if(deet.style("display") == "none"){
-    //                 deet.style("display", "block")
-    //             }
-    //             else{
-    //                 deet.style("display", "none")
-    //             }
-    //         }
-    //         else{
-    //             d3.select("#chart").append("div")
-    //                 .html("<p><b>Marker: </b>" + d.marker + "<br>" + "<p><b>Intervention: </b>" + d.intervention + "<br>" + "<p><b>Content: </b>" + d.content + "</p>")
-    //                 .attr("class", "deets interventions " + d.marker)
-    //                 .attr("id", idName)
-    //                 .style("left", xScale.range()[1]+ 104)
-    //                 .style("top", yScale(d.timestamp ))
-    //         }
-    //     })
 
-    // let ritualLines = chartSVG.append("g")
-    //     .selectAll("line")
-    //     .data(data['rituals'].filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness" && d.timestamp > currentPredictions[0]['timestamp'] && d.timestamp < currentPredictions[currentPredictions.length - 2]['timestamp']))
-    //     .enter()
-    //     .append("line")
-    //         .attr("x1", xScale(0))
-    //         .attr("x2", xScale.range()[1] + 100)
-    //         .attr("y1", d => yScale(d.timestamp ))
-    //         .attr("y2", d => yScale(d.timestamp ))
-    //         .attr("class", "rituals ritualLine")
-    // let ritualPTS = chartSVG.append("g")
-    //     .selectAll("circle")
-    //     .data(data['rituals'].filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness" && d.timestamp > currentPredictions[0]['timestamp'] && d.timestamp < currentPredictions[currentPredictions.length - 2]['timestamp']))
-    //     .enter()
-    //     .append("circle")
-    //         .attr("class","rituals ritualPTS")
-    //         .attr("cx", xScale(0))
-    //         .attr("cy", d => yScale(d.timestamp ))
-    //         .attr("r", 3)
-    // let ritualText = chartSVG.append("g")
-    //     .selectAll("text")
-    //     .data(data['rituals'].filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness" && d.timestamp > currentPredictions[0]['timestamp'] && d.timestamp < currentPredictions[currentPredictions.length - 2]['timestamp']))
-    //     .enter()
-    //     .append("text")
-    //         .attr("class", "rituals ritualTXT")
-    //         .attr("x", xScale.range()[1]+ 104)
-    //         .attr("y", d => yScale(d.timestamp ))
-    //         .text(d => d.content)
-    //     .on("click", d => {
-    //         let idName = "ritual" + d.timestamp.toString().split(".")[0]
-    //         if(document.getElementById(idName)){
-    //             let deet = d3.select("#" + idName)
-    //             if(deet.style("display") == "none"){
-    //                 deet.style("display", "block")
-    //             }
-    //             else{
-    //                 deet.style("display", "none")
-    //             }
-    //         }
-    //         else{
-    //             d3.select("#chart").append("div")
-    //                 .html("<p><b>Ritual: </b>" + d.ritual + "<br>" + "<p><b>Content: </b>" + d.content + "</p>")
-    //                 .attr("class", "deets rituals")
-    //                 .attr("id", idName)
-    //                 .style("left", xScale.range()[1]+ 104)
-    //                 .style("top", yScale(d.timestamp ))
-    //         }
-    //     })
 
     // let gratitudeLines = chartSVG.selectAll("g")
     //     .data(data['gratitudeLog'].filter(d => d.timestamp > currentPredictions[0]['timestamp'] && d.timestamp < currentPredictions[currentPredictions.length - 2]['timestamp']))
@@ -297,59 +196,6 @@ getData().then(function(data){
     //             .attr("y2", d => yScale(d.timestamp ))
     //             .attr("class", "documentation docLine")
 
-    // let documentation = d3.select("#chart")
-    //     .selectAll("div")
-    //     .data(data['documentation'].filter(d => d.timestamp > currentPredictions[0]['timestamp'] && d.timestamp < currentPredictions[currentPredictions.length - 2]['timestamp']))
-    //     .enter()
-    //     .append("div")
-    //         // .attr("class", d => d.extension.slice(1,d.extension.length) + " documentation")
-    //         .attr("class", d => "intervention" + d.timestamp.toString().split(".")[0] + " documentation")
-    //         .attr("id", d => "doc" + d.timestamp)
-    //         .html(d => {
-    //             d.fileName
-    //             if(d.extension == ".jpg"){
-    //                 return "<img src='documentation/files/"+ d.fileName + "' width='55%'>"
-    //             }
-    //             else if (d.extension == ".gif"){
-    //                 return "<img src='documentation/files/"+ d.fileName + "' width='85%'>"
-    //             }
-    //             else if (d.extension == ".mp3"){
-    //                 return "<audio controls><source src='documentation/files/" +  d.fileName + "' type='audio/mpeg'> Your browser does not support the audio element.</audio>"
-    //             }
-    //             else if (d.extension == ".mp4"){
-    //                 return "<video width='55%' controls><source src='documentation/files/" +  d.fileName + "' type='video/mp4'>Your browser does not support the video tag.</video>"
-    //             }
-    //             else if (d.extension == undefined){
-    //                 return "<p>" + d.entry + "</p>"
-    //             }
-    //         })
-    //         .style("left", xScale.range()[1] + 650)
-
-    //         .style("top", d => yScale(d.timestamp ))
-    //         .on("mouseover", d => {
-    //             let idName = "doc" + d.timestamp.toString()
-    //             let documentation = document.getElementById(idName)
-    //             documentation.parentNode.appendChild(documentation);
-    //         })
-    // let docLines = chartSVG.append("g")
-    //     .selectAll("line")
-    //     .data(data['documentation'].filter(d => d.timestamp > currentPredictions[0]['timestamp'] && d.timestamp < currentPredictions[currentPredictions.length - 2]['timestamp']))
-    //     .enter()
-    //     .append("line")
-    //         .attr("x1", xScale(0))
-    //         .attr("x2", xScale.range()[1] + 650)
-    //         .attr("y1", d => yScale(d.timestamp ))
-    //         .attr("y2", d => yScale(d.timestamp ))
-    //         .attr("class", "documentation docLine")
-    // let docPTS = chartSVG.append("g")
-    //     .selectAll("circle")
-    //     .data(data['documentation'].filter(d => d.timestamp > currentPredictions[0]['timestamp'] && d.timestamp < currentPredictions[currentPredictions.length - 2]['timestamp']))
-    //     .enter()
-    //     .append("circle")
-    //         .attr("class", "documentation docPTS")
-    //         .attr("cx", xScale(0))
-    //         .attr("cy", d => yScale(d.timestamp ))
-    //         .attr("r", 3)
     update(currentPredictions)
 
     let lineChoice = document.getElementById("filterBy");
@@ -361,6 +207,7 @@ getData().then(function(data){
         }
     
     let nextDayButton = document.getElementById("nextDay")
+    nextDayButton.style.opacity = 0.2
     let prevDayButton = document.getElementById("prevDay")
     let prevDayCaption = document.getElementById("prevDayCaption")
     let nextDayCaption = document.getElementById("nextDayCaption")
@@ -373,17 +220,23 @@ getData().then(function(data){
     }
 
     prevDayButton.onclick = (event) => {
-        if(nullIndex >= nullItems.length - 2){
+
+        if(nullIndex >= nullItems.length - 1){
             prevDayButton.style.opacity = 0.2
         }
         else{
             nextDayButton.style.opacity = 1
-            nullIndex += 1
             currentPredictions = data.predictions.slice(nullItems[nullIndex], (nullItems[nullIndex + 1] + 1))
+            console.log(nullIndex, nullIndex+1)
+            // console.log(nullItems[nullIndex], (nullItems[nullIndex + 1] + 1))
+            nullIndex += 1
 
             if(currentPredictions.length < 4){
                 currentPredictions = data.predictions.slice(nullItems[nullIndex + 1], (nullItems[nullIndex + 2] + 1))
-                nullIndex += 1
+                console.log(nullIndex +1, nullIndex+2)
+                // console.log(nullItems[nullIndex + 1], (nullItems[nullIndex + 2] + 1))
+
+                nullIndex += 2
             }
             update(currentPredictions)
         }
@@ -397,26 +250,35 @@ getData().then(function(data){
     }
 
     nextDayButton.onclick = (event) => {
-        if(nullIndex <= 0){
+        nullIndex -= 1
+
+        if(nullIndex == 0){
+            currentPredictions = data.predictions.slice(0, (nullItems[0] + 1))
             nextDayButton.style.opacity = 0.2
         }
         else{
-            nullIndex -= 1
             prevDayButton.style.opacity = 1
 
-            currentPredictions = data.predictions.slice(nullItems[nullIndex], (nullItems[nullIndex + 1] + 1))
+            currentPredictions = data.predictions.slice(nullItems[nullIndex-1], (nullItems[nullIndex] + 1))
+            console.log(nullIndex-1, nullIndex)
+            // console.log(nullItems[nullIndex], (nullItems[nullIndex + 1] + 1))
 
             if(currentPredictions.length < 4){
-                currentPredictions = data.predictions.slice(nullItems[nullIndex - 1], (nullItems[nullIndex] + 1))
                 nullIndex -= 1
+
+                currentPredictions = data.predictions.slice(nullItems[nullIndex - 1], (nullItems[nullIndex] + 1))
+                console.log(nullIndex-1, nullIndex)
+                // console.log(nullItems[nullIndex - 1], (nullItems[nullIndex] + 1))
             }
-            update(currentPredictions)
         }
+        update(currentPredictions)
+
     }
 
     function update(currentPredictions){
-        console.log(currentPredictions)
-        console.log(currentPredictions[1]['timestamp'], currentPredictions[currentPredictions.length - 2]['timestamp'])
+
+        // console.log(currentPredictions)
+        // console.log(currentPredictions[1]['timestamp'], currentPredictions[currentPredictions.length - 2]['timestamp'])
 
         var t = d3.transition()
             .duration(500)
@@ -455,8 +317,8 @@ getData().then(function(data){
         interventionLines.enter().append("line")
             .merge(interventionLines)
                 .transition(t)
-                .attr("x2", xScale.range()[1] + 100)
                 .attr("x1", d => xScale(d['mean_delta']))
+                .attr("x2", xScale.range()[1] + 200)
                 .attr("y1", d => yScale(d.timestamp))
                 .attr("y2", d => yScale(d.timestamp))
                 .attr("class", d => d.marker + " interventions interventionLine")
@@ -465,7 +327,7 @@ getData().then(function(data){
             .data(interventionData)
         interventionPTS.exit().remove()
         interventionPTS.enter().append("circle")
-            .attr("r", 3)
+            .attr("r", 3.5)
             .merge(interventionPTS)
                 .transition(t)
                 .attr("class", d => "interventions interventionPTS " + d.marker)
@@ -482,9 +344,19 @@ getData().then(function(data){
                 if(document.getElementById(idName)){
                     let deet = d3.select("#" + idName)
                     let deetLine = d3.select("#" + idName + "_line")
+                    var totalLength = deetLine.node().getTotalLength();
+
                     if(deet.style("display") == "none"){
-                        deet.style("display", "block")
-                        deetLine.style("stroke-width", 1)
+                        deetLine.style("stroke-width", 1.5)
+                        deetLine
+                            .attr("stroke-dasharray", totalLength + " " + totalLength)
+                            .attr("stroke-dashoffset", totalLength)
+                            .transition(t)
+                            .attr("stroke-dashoffset", 0)
+                            .on("end", function (d) {
+                                deetLine.attr("stroke-dasharray", 2)
+                                deet.style("display", "block")
+                            })
                     }
                     else{
                         deet.style("display", "none")
@@ -493,19 +365,31 @@ getData().then(function(data){
                 }
                 else{
                     let newDeet = d3.select("#chart").append("div")
-                        .html("")
+                        .html("<p><b>Marker: </b>" + d.marker + "<br>" + "<p><b>Intervention: </b>" + d.intervention + "<br>" + "<p><b>Content: </b>" + d.content + "</p>")
                         .attr("class", "deets interventions " + d.marker)
                         .attr("id", idName)
-                        .style("left", xScale.range()[1]+ 900)
-                        .style("top", yScale(d.timestamp ))
+                        .style("left", xScale.range()[1]+ 800)
+                        .style("top", yScale(d.timestamp))
+                        .style("display", "none")
                         
-                    chartSVG.append("line")
-                        .attr("x1", document.getElementById("text" + d.timestamp).getBoundingClientRect().right)
-                        .attr("x2", xScale.range()[1] + 900)
+                    let deetLine = chartSVG.append("line")
+                        .attr("x1", document.getElementById("text" + d.timestamp).getBoundingClientRect().right + 5)
+                        .attr("x2", xScale.range()[1] + 800)
                         .attr("y1", yScale(d.timestamp ))
                         .attr("y2", yScale(d.timestamp ))
-                        .attr("class", "documentation docLine")
+                        .attr("class", "documentation deetLine interventions " + d.marker)
                         .attr("id", idName + "_line")
+                    var totalLength = deetLine.node().getTotalLength();
+
+                    deetLine
+                          .attr("stroke-dasharray", totalLength + " " + totalLength)
+                          .attr("stroke-dashoffset", totalLength)
+                          .transition(t)
+                          .attr("stroke-dashoffset", 0)
+                          .on("end", function () {
+                              newDeet.style("display", "block")
+                              deetLine.attr("stroke-dasharray", 2)
+                            })
 
                     if(d.intervention == "videos"){
                         let link;
@@ -515,23 +399,26 @@ getData().then(function(data){
                         else{
                             link = d.content
                         }
-                        newDeet.html("<p><b>Marker: </b>" + d.marker + "<br>" + "<p><b>Intervention: </b>" + d.intervention + "<br>" + "<p><b>Content: </b>" + "<iframe width='420' height='315' src='" + link.replace("watch?v=", "embed/") + "'></iframe>")
+                        newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "</p><p><b>Content: </b>" + "<iframe width='350' height='200' src='" + link.replace("watch?v=", "embed/") + "'></iframe>")
                     }
                     else if(d.intervention == "cuteThings"){
-                        newDeet.html("<p><b>Marker: </b>" + d.marker + "<br>" + "<p><b>Intervention: </b>" + d.intervention + "<br>" + "<p><b>Content: </b>" + "<img width='300' src='" + d.content+ "'>")
+                        newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "</p><p><b>Content: </b>" + "<img width='350' src='" + d.content+ "'>")
                     }
                     else if(d.intervention == "fieldTrip"){
-                        newDeet.html("<p><b>Marker: </b>" + d.marker + "<br>" + "<p><b>Intervention: </b>" + d.intervention + "<br>" + "<p><b>Content: </b><br><iframe width='400' height='300' frameborder='0' style='border:0' src='" + "https://www.google.com/maps/embed/v1/place?key=AIzaSyCidl2VEMJ6et1L-eOTFwtIfPPp4zvMfDw&q=" + d.content.slice(48,d.content.length) + "' allowfullscreen></iframe>")
+                        newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "<p><b>Content: </b><br><iframe width='350' height='300' frameborder='0' style='border:0' src='" + "https://www.google.com/maps/embed/v1/place?key=AIzaSyCidl2VEMJ6et1L-eOTFwtIfPPp4zvMfDw&q=" + d.content.slice(48,d.content.length) + "' allowfullscreen></iframe>")
                     }
-                    else if(d.marker == "fatigue" && d.intervention == "exercises"){
+                    else if(d.marker == "fatigue" || d.marker == "stress" && d.intervention == "exercises"){
                         data['lookup']['danceTracks'].forEach(track => {
-                            if(track.title == d.content){
-                                newDeet.html("<p><b>Marker: </b>" + d.marker + "<br>" + "<p><b>Intervention: </b>" + d.intervention + "<br>" + "<p><b>Content: </b>" + "<iframe src='" + track.link.slice(0,25) + "embed/" + track.link.slice(25,track.link.length) + "' width='300' height='380' frameborder='0' allowtransparency='true' allow='encrypted-media'></iframe>" + "</p>")
+                            try{
+                                if(track.title == d.content){
+                                    newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "<p><b>Content: </b>" + "<iframe src='" + track.link.slice(0,25) + "embed/" + track.link.slice(25,track.link.length) + "' width='350' height='85' frameborder='0' allowtransparency='true' allow='encrypted-media'></iframe>" + "</p>")
+                                }
                             }
+                            catch{
+                                newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "<p><b>Content: </b>" + d.content + "</p>")
+                            }
+
                         })
-                    }
-                    else{
-                        newDeet.html("<p><b>Marker: </b>" + d.marker + "<br>" + "<p><b>Intervention: </b>" + d.intervention + "<br>" + "<p><b>Content: </b>" + d.content + "</p>")
                     }
                 }
             })
@@ -539,12 +426,42 @@ getData().then(function(data){
                 .transition(t)
                 .attr("class", d => "interventions interventionTXT " + d.marker)
                 .attr("id", d => "text" + d.timestamp)
-                .attr("x", xScale.range()[1]+ 104)
+                .attr("x", xScale.range()[1]+ 205)
                 .attr("y", d => yScale(d.timestamp))
-                .text(d => d.content)
+                .text(d => {
+                    let script = data['lookup']['scripts'][d.marker][d.intervention]
+                    if(typeof script !== "string"){
+                        if(d.content.includes("Workout") || d.content.includes("yoga")){
+                            script = data['lookup']['scripts'][d.marker][d.intervention]['workouts']
+                        }
+                        else if(d.content.includes("sleep")){
+                            script = "Hey Jenna, you should go to sleep."
+                        }
+                        else if(d.content.includes("-")){
+                            script = data['lookup']['scripts'][d.marker][d.intervention]['danceTracks'] + d.content.slice(d.content.indexOf("-")+1, d.content.length) + "!"
+                        }
+                        else if(d.content.includes("question")){
+                            script = data['lookup']['scripts'][d.marker][d.intervention]['question']
+                        }
+                        else if(d.content.includes("joke")){
+                            script = data['lookup']['scripts'][d.marker][d.intervention]['joke']
+                        }
+                        else if (d.content.includes("compliment")){
+                            script = data['lookup']['scripts'][d.marker][d.intervention]['compliment']
+                        }
+                        else{
+                            script = "Hey Jenna, " + d.content.toLowerCase()
+                        }
+                    }
+                    else if(d.intervention == "poetry"){
+                        let info = d.content.split(" ")
+                        let author = info.slice(info.indexOf("by") + 1, info.length)
+                        script = script + "by " + author.reduce(function(acc,val){return acc + " " + val}) + "."
+                    }
+                    return script
+                })
 
         let ritualData = data['rituals'].filter(d => d.timestamp < currentPredictions[1]['timestamp'] && d.timestamp > currentPredictions[currentPredictions.length - 2]['timestamp'])
-        console.log(ritualData)
         
         let ritualLines = chartSVG.selectAll(".ritualLine")
             .data(ritualData.filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness"))
@@ -553,7 +470,7 @@ getData().then(function(data){
             .merge(ritualLines)
                 .transition(t)
                 .attr("x1", xScale(0))
-                .attr("x2", xScale.range()[1] + 100)
+                .attr("x2", xScale.range()[1] + 200)
                 .attr("y1", d => yScale(d.timestamp ))
                 .attr("y2", d => yScale(d.timestamp ))
                 .attr("class", "rituals ritualLine")
@@ -562,7 +479,7 @@ getData().then(function(data){
             .data(ritualData.filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness"))
         ritualPTS.exit().remove()
         ritualPTS.enter().append("circle")
-            .attr("r", 3)
+            .attr("r", 2.5)
             .merge(ritualPTS)
                 .attr("class","rituals ritualPTS")
                 .attr("cx", xScale(0))
@@ -588,21 +505,20 @@ getData().then(function(data){
                         .html("<p><b>Ritual: </b>" + d.ritual + "<br>" + "<p><b>Content: </b>" + d.content + "</p>")
                         .attr("class", "deets rituals")
                         .attr("id", idName)
-                        .style("left", xScale.range()[1]+ 104)
+                        .style("left", xScale.range()[1]+ 200)
                         .style("top", yScale(d.timestamp ))
                 }
             })
         .merge(ritualText)
             .transition(t)
             .attr("class", "rituals ritualTXT")
-            .attr("x", xScale.range()[1]+ 104)
+            .attr("x", xScale.range()[1]+ 205)
             .attr("y", d => yScale(d.timestamp ))
-            .text(d => d.content)
+            .text(d => "Hey Jenna, " + d.content.toLowerCase())
 
         d3.selectAll(".documentation").remove()
 
         let docData = data['documentation'].filter(d => (d.timestamp < (currentPredictions[1]['timestamp'] + 60 * 60 * 3 * 1000)) && d.timestamp > currentPredictions[currentPredictions.length - 2]['timestamp'])
-        console.log(docData)
     
         let documentation = d3.select("#chart")
             .selectAll("div")
@@ -630,7 +546,7 @@ getData().then(function(data){
                         return "<p>" + d.entry + "</p>"
                     }
                 })
-                .style("left", xScale.range()[1] + 900)
+                .style("left", xScale.range()[1] + 800)
     
                 .style("top", d => yScale(d.timestamp ))
                 .on("mouseover", d => {
@@ -647,19 +563,17 @@ getData().then(function(data){
                 .attr("x2", xScale.range()[1] + 900)
                 .attr("y1", d => yScale(d.timestamp ))
                 .attr("y2", d => yScale(d.timestamp ))
-                .attr("class", "documentation docLine")
-        let docPTS = chartSVG.append("g")
-            .selectAll("circle")
-            .data(docData)
-            .enter()
-            .append("circle")
-                .attr("class", "documentation docPTS")
-                .attr("cx", xScale(0))
-                .attr("cy", d => yScale(d.timestamp ))
-                .attr("r", 3)
+                .attr("class", "documentation docLine stress")
+        // let docPTS = chartSVG.append("g")
+        //     .selectAll("circle")
+        //     .data(docData)
+        //     .enter()
+        //     .append("circle")
+        //         .attr("class", "documentation docPTS")
+        //         .attr("cx", xScale(0))
+        //         .attr("cy", d => yScale(d.timestamp ))
+        //         .attr("r", 3.5)
     }
-
-
 })
 
 let cover = document.getElementById('cover')
@@ -674,7 +588,6 @@ caption.style.display = "none"
 caption.innerHTML = "Style-transferred from <i><a href='https://en.wikipedia.org/wiki/Self-Portrait_as_the_Allegory_of_Painting' target='new'>Self-Portrait as the Allegory of Painting</a></i> using <a href='https://github.com/lengstrom/fast-style-transfer' target='new'>Fast Style Transfer</a>"
 
 captionContainer.onclick = function() {
-    console.log(caption.style.display)
     if(caption.style.display == "none"){
         caption.style.display = "block"
     }
