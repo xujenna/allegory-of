@@ -11,8 +11,9 @@
         }
         .fullScreen{
             width:100%;
-            max-height:100%;
-            min-height:100%;
+            /* max-height:100%;
+            min-height:100%; */
+            height:100%;
             margin:0;
         }
         #cover{
@@ -64,18 +65,25 @@
         #chart{
             position:relative;
             text-align: left;
+            /* margin-left:3%; */
             /* padding:0 2em; */
         }
         .xAxis, .yAxis{
-            font-family: source-code-pro, monospace;
-            font-weight: 400;
+            font-family: cormorant-garamond, serif;
+            font-weight: 500;
             font-style: normal;
-            font-size: 11px;
-            text-transform: uppercase;
+            font-size: 1em;
+            letter-spacing: 1;
+            font-style: italic;
         }
-        .xAxis {
-            font-size:12px;
-            letter-spacing: 0.5;
+        .yAxis{
+            /* text-transform: uppercase; */
+            font-variant: small-caps;
+            font-size: 14.5px;
+            font-size: 1.05em;
+        }
+        .xAxis{
+            text-transform: uppercase;
         }
         .mood{
             stroke: fuchsia;
@@ -107,12 +115,12 @@
             opacity: 0.35;
         } */
         .predLine{
-            stroke-width:4.25;
+            stroke-width:12;
             fill:none;
             opacity: 0.5;
         }
         .predLine.fatigue{
-            opacity:0.85;
+            opacity:0.8;
         }
         .interventionLine, .ritualLine {
             fill: none;
@@ -121,59 +129,77 @@
             /* stroke:black; */
         }
         .interventionLine.fatigue {
-            stroke: #8b94ba;
+            stroke: #9b9fe8;
         }
         .interventionTXT.fatigue{
-            fill: #8b94ba;
+            fill: #9b9fe8;
         }
         .deetline.fatigue{
-            stroke: #8b94ba;
+            stroke: #9b9fe8;
         }
         .ritualLine, .ritualPTS{
-            stroke:black;
+            stroke:grey;
         }
         .interventionPTS{
             fill:#fffbe5;
-            stroke-width: 3;
+            stroke-width: 2;
+        }
+        .interventionPTS.fatigue{
+            stroke:#9b9fe8;
         }
         .ritualPTS{
-            fill:black;
+            fill:grey;
             stroke-width:0;
         }
+        .deetLine.rituals{
+            stroke:grey;
+        }
         .deets{
-            font-family: source-code-pro, monospace;
-            font-weight: 400;
+            font-family: cormorant-garamond, serif;
+            font-weight: 500;
             font-style: normal;
-            font-size: 13px;
+            font-size: 1.1em;
+            line-height:1.25em;
             position: absolute;
-            background-color: white;
+            /* background-color: white; */
             width: 350px;
             position:absolute;
             text-align: left;
-            padding: 1em 2em;
+            /* padding: 1em 2em; */
+            padding-left: 10px;
         }
         .deets.mood{
-            border-top: 6px solid fuchsia;
+            border-left: 2px solid fuchsia;
+            /* box-shadow: 5px 5px fuchsia; */
         }
         .deets.morale{
-            border-top: 6px solid gold;
+            border-left: 2px solid gold;
+            /* box-shadow: 5px 5px gold; */
         }
         .deets.stress{
-            border-top: 6px solid blue;
+            border-left: 2px solid blue;
+            /* box-shadow: 5px 5px blue; */
         }
 
         .deets.fatigue{
-            border-top: 6px solid #8b94ba;
+            border-left: 2px solid #9b9fe8;
+            /* box-shadow: 5px 5px lavender; */
+        }
+        .deets.rituals{
+            border-left: 2px solid grey;
         }
         .interventionTXT, .ritualTXT{
             stroke-width:0;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 14px;
             font-family: source-code-pro, monospace;
             font-weight: 500;
             font-style: normal;
             letter-spacing: -0.6;
-            }
+        }
+        .ritualTXT{
+            fill:grey;
+        }
         .hide{
             opacity:0!important;
         }
@@ -260,7 +286,8 @@
             z-index: -1;
         }
         #gentileschi img {
-            height:120%;
+            /* height:120%; */
+            max-width: 85%;
         }
         #intro{
             margin-top:75%;
@@ -334,7 +361,7 @@
             margin-top: 20px;
             display:none;
         }
-        #border-fullScreen{
+        /* #border-fullScreen{
             width:100%;
             max-height:100%;
             min-height:100%;
@@ -350,7 +377,7 @@
             height:80%;
             margin:0;
             border: 1px solid black;
-        }
+        } */
     </style>
 </head>
 

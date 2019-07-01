@@ -102,10 +102,10 @@ getData().then(function(data){
     let currentPredictions = data.predictions.slice(0, nullItems[nullIndex] + 1)
     // console.log(currentPredictions)
 
-    let margin = {top:30, right:50, bottom:60, left: 70};
+    let margin = {top:50, right:50, bottom:60, left: 100};
     let width = window.innerWidth * 0.8;
-    let height = currentPredictions.length * 100;
-    let axisWidth = width * 0.22
+    let height = currentPredictions.length * 80;
+    let axisWidth = width * 0.38
 
     let chartSVG = d3.select("#charts")
         .attr("height", height + margin.top + margin.bottom + "px")
@@ -117,14 +117,14 @@ getData().then(function(data){
 
     let xScale = d3.scaleLinear()
         // .domain([d3.min(data.predictions, d => d.LSTM_morale_prediction),d3.max(data.predictions, d=> d.LSTM_stress_prediction)])
-        .domain([-2,2]) // needs to be difference from avg
+        .domain([-2,2])
         .range([margin.left, axisWidth])
     
     let xTicks = d3.axisTop(xScale)
         .ticks(2)
         .tickFormat(d => {
             if(d == 0){
-                return "average"
+                return "average mood"
             }
             else if (d > 0){
                 return "worse"
@@ -134,14 +134,27 @@ getData().then(function(data){
             }
         })
         .tickSizeOuter(0)
-        .tickPadding(10)
-        .tickSize(6)
+        .tickPadding(12)
+        .tickSize(10)
+
+    let formatDate = d3.timeFormat("%b %d, %I %p")
+    let formatTime = d3.timeFormat("%I %p")
     let yTicks = d3.axisLeft(yScale)
-        // .tickFormat(d => "$" + d)
-        // .tickSize(-(width-margin.right-margin.left))
-        .ticks(d3.timeMinute.every(120))
+        .ticks(d3.timeHour.every(2))
         .tickSizeOuter(0)
         .tickPadding(10)
+        .tickSizeInner(30)
+        .tickFormat((d,i,j) => {
+            if(i == j.length - 1 || formatTime(d) == "12 AM"){
+                return formatDate(d).toLowerCase()
+            }
+            else{
+                return formatTime(d).toLowerCase()
+            }
+            // return this.parentNode.nextSibling
+            //     ? d
+            //     : formatDate(d)
+        })
 
     let xAxis = g => g
         .attr("transform", "translate(0,"+(margin.top)+")") // move x axis to bottom of chart
@@ -151,7 +164,7 @@ getData().then(function(data){
         .call(g => g.attr("class", "xAxis"))
 
     let yAxis = g => g
-        .attr("transform", "translate(" + xScale(0) + ",0)") // enforces left margin
+        .attr("transform", "translate(" + xScale(0) + ",0)")
         .call(yTicks)
         .call(g => g.select(".tick:first-of-type line").remove()) // removes first y axis tick
         .call(g => g.attr("class", "yAxis"));
@@ -163,7 +176,7 @@ getData().then(function(data){
         .call(yAxis);
     
 
-    let deltasArray = Object.keys(data.predictions[0]['mean_deltas'])
+    let deltasArray = Object.keys(data.predictions[0]['mean_deltas']).reverse()
 
     deltasArray.forEach(variable => {
         const line = d3.line()
@@ -287,7 +300,7 @@ getData().then(function(data){
         yScale.domain([currentPredictions[1]['timestamp'], currentPredictions[currentPredictions.length - 2]['timestamp']])
         d3.select('.yAxis')
             .transition(t)
-            .call(d3.axisLeft(yScale));
+            .call(yAxis);
 
         deltasArray.forEach(variable => {
             const line = d3.line()
@@ -298,6 +311,17 @@ getData().then(function(data){
                 .datum(currentPredictions)
                 .transition(t)
                 .attr("d", line)
+            
+            // let interventionPTS = d3.selectAll(".interventionPTS." + variable.replace("_mean_delta", ""))
+            //     .data(interventionData.filter(d => d.marker == variable.replace("_mean_delta", "")))
+            // interventionPTS.exit().remove()
+            // interventionPTS.enter().append("circle")
+            //     .attr("r", 4.5)
+            //     .merge(interventionPTS)
+            //     .transition(t)
+            //     .attr("class", d => "interventions interventionPTS " + d.marker)
+            //     .attr("cx", d => xScale(d['mean_delta']))
+            //     .attr("cy", d => yScale(d.timestamp))
             // let predLine = chartSVG.selectAll(".predLine." + variable.replace("_mean_delta", ""))
             //     .datum(currentPredictions)
             // predLine.exit().remove()
@@ -305,7 +329,7 @@ getData().then(function(data){
             //     .transition(t)
             //     .attr("d", line)
         })
- 
+
         let interventionData = data['interventions'].filter(d => d.timestamp < currentPredictions[1]['timestamp'] && d.timestamp > currentPredictions[currentPredictions.length - 2]['timestamp'])
         console.log(interventionData)
 
@@ -318,7 +342,8 @@ getData().then(function(data){
             .merge(interventionLines)
                 .transition(t)
                 .attr("x1", d => xScale(d['mean_delta']))
-                .attr("x2", xScale.range()[1] + 200)
+                // .attr("x2", d => xScale(d['mean_delta']) + 140)
+                .attr("x2", xScale.range()[1])
                 .attr("y1", d => yScale(d.timestamp))
                 .attr("y2", d => yScale(d.timestamp))
                 .attr("class", d => d.marker + " interventions interventionLine")
@@ -327,7 +352,7 @@ getData().then(function(data){
             .data(interventionData)
         interventionPTS.exit().remove()
         interventionPTS.enter().append("circle")
-            .attr("r", 3.5)
+            .attr("r", 4.5)
             .merge(interventionPTS)
                 .transition(t)
                 .attr("class", d => "interventions interventionPTS " + d.marker)
@@ -339,6 +364,11 @@ getData().then(function(data){
         interventionTXT.exit().remove()
         interventionTXT.enter().append("text")
             .on("click", d => {
+                console.log(d.marker)
+                console.log(d.timestamp)
+                console.log(d.content)
+                console.log(d.intervention)
+
                 let idName = "intervention" + d.timestamp.toString().split(".")[0]
                         
                 if(document.getElementById(idName)){
@@ -365,16 +395,16 @@ getData().then(function(data){
                 }
                 else{
                     let newDeet = d3.select("#chart").append("div")
-                        .html("<p><b>Marker: </b>" + d.marker + "<br>" + "<p><b>Intervention: </b>" + d.intervention + "<br>" + "<p><b>Content: </b>" + d.content + "</p>")
+                        .html(d.content)
                         .attr("class", "deets interventions " + d.marker)
                         .attr("id", idName)
-                        .style("left", xScale.range()[1]+ 800)
+                        .style("left", xScale.range()[1]+ 600)
                         .style("top", yScale(d.timestamp))
                         .style("display", "none")
                         
                     let deetLine = chartSVG.append("line")
                         .attr("x1", document.getElementById("text" + d.timestamp).getBoundingClientRect().right + 5)
-                        .attr("x2", xScale.range()[1] + 800)
+                        .attr("x2", xScale.range()[1] + 600)
                         .attr("y1", yScale(d.timestamp ))
                         .attr("y2", yScale(d.timestamp ))
                         .attr("class", "documentation deetLine interventions " + d.marker)
@@ -388,6 +418,7 @@ getData().then(function(data){
                           .attr("stroke-dashoffset", 0)
                           .on("end", function () {
                               newDeet.style("display", "block")
+                              newDeet.style("top", yScale(d.timestamp) - document.getElementById(idName).getBoundingClientRect().height / 2)
                               deetLine.attr("stroke-dasharray", 2)
                             })
 
@@ -399,25 +430,31 @@ getData().then(function(data){
                         else{
                             link = d.content
                         }
-                        newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "</p><p><b>Content: </b>" + "<iframe width='350' height='200' src='" + link.replace("watch?v=", "embed/") + "'></iframe>")
+                        // newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "</p><p><b>Content: </b>" + "<iframe width='350' height='200' src='" + link.replace("watch?v=", "embed/") + "'></iframe>")
+                        newDeet.html("<iframe width='350' height='200' src='" + link.replace("watch?v=", "embed/") + "'></iframe>")
                     }
                     else if(d.intervention == "cuteThings"){
-                        newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "</p><p><b>Content: </b>" + "<img width='350' src='" + d.content+ "'>")
+                        // newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "</p><p><b>Content: </b>" + "<img width='350' src='" + d.content+ "'>")
+                        newDeet.html("<img width='350' src='" + d.content+ "'>")
+
                     }
                     else if(d.intervention == "fieldTrip"){
-                        newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "<p><b>Content: </b><br><iframe width='350' height='300' frameborder='0' style='border:0' src='" + "https://www.google.com/maps/embed/v1/place?key=AIzaSyCidl2VEMJ6et1L-eOTFwtIfPPp4zvMfDw&q=" + d.content.slice(48,d.content.length) + "' allowfullscreen></iframe>")
+                        // newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "<p><b>Content: </b><br><iframe width='350' height='300' frameborder='0' style='border:0' src='" + "https://www.google.com/maps/embed/v1/place?key=AIzaSyCidl2VEMJ6et1L-eOTFwtIfPPp4zvMfDw&q=" + d.content.slice(48,d.content.length) + "' allowfullscreen></iframe>")
+                        newDeet.html("<iframe width='350' height='300' frameborder='0' style='border:0' src='" + "https://www.google.com/maps/embed/v1/place?key=AIzaSyCidl2VEMJ6et1L-eOTFwtIfPPp4zvMfDw&q=" + d.content.slice(48,d.content.length) + "' allowfullscreen></iframe>")
+
                     }
                     else if(d.marker == "fatigue" || d.marker == "stress" && d.intervention == "exercises"){
                         data['lookup']['danceTracks'].forEach(track => {
                             try{
                                 if(track.title == d.content){
-                                    newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "<p><b>Content: </b>" + "<iframe src='" + track.link.slice(0,25) + "embed/" + track.link.slice(25,track.link.length) + "' width='350' height='85' frameborder='0' allowtransparency='true' allow='encrypted-media'></iframe>" + "</p>")
+                                    // newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "<p><b>Content: </b>" + "<iframe src='" + track.link.slice(0,25) + "embed/" + track.link.slice(25,track.link.length) + "' width='350' height='85' frameborder='0' allowtransparency='true' allow='encrypted-media'></iframe>" + "</p>")
+                                    newDeet.html("<iframe src='" + track.link.slice(0,25) + "embed/" + track.link.slice(25,track.link.length) + "' width='350' height='85' frameborder='0' allowtransparency='true' allow='encrypted-media'></iframe>")
                                 }
                             }
                             catch{
-                                newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "<p><b>Content: </b>" + d.content + "</p>")
+                                // newDeet.html("<p><b>Marker: </b>" + d.marker + "</p><p><b>Intervention: </b>" + d.intervention + "</p><p><b>Timestamp: </b>" + d.timestamp + "<p><b>Content: </b>" + d.content + "</p>")
+                                newDeet.html(d.content)
                             }
-
                         })
                     }
                 }
@@ -426,12 +463,13 @@ getData().then(function(data){
                 .transition(t)
                 .attr("class", d => "interventions interventionTXT " + d.marker)
                 .attr("id", d => "text" + d.timestamp)
-                .attr("x", xScale.range()[1]+ 205)
-                .attr("y", d => yScale(d.timestamp))
+                // .attr("x", d => xScale(d['mean_delta']) + 145)
+                .attr("x", xScale.range()[1] - 3)
+                .attr("y", d => yScale(d.timestamp) + 4)
                 .text(d => {
                     let script = data['lookup']['scripts'][d.marker][d.intervention]
                     if(typeof script !== "string"){
-                        if(d.content.includes("Workout") || d.content.includes("yoga")){
+                        if(d.content.includes("Workout") || d.content.includes("Yoga")){
                             script = data['lookup']['scripts'][d.marker][d.intervention]['workouts']
                         }
                         else if(d.content.includes("sleep")){
@@ -458,63 +496,121 @@ getData().then(function(data){
                         let author = info.slice(info.indexOf("by") + 1, info.length)
                         script = script + "by " + author.reduce(function(acc,val){return acc + " " + val}) + "."
                     }
-                    return script
+                    return "| " + script
                 })
 
         let ritualData = data['rituals'].filter(d => d.timestamp < currentPredictions[1]['timestamp'] && d.timestamp > currentPredictions[currentPredictions.length - 2]['timestamp'])
         
         let ritualLines = chartSVG.selectAll(".ritualLine")
-            .data(ritualData.filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness"))
+            // .data(ritualData.filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness"))
+            .data(ritualData)
         ritualLines.exit().remove()
         ritualLines.enter().append("line")
             .merge(ritualLines)
                 .transition(t)
                 .attr("x1", xScale(0))
-                .attr("x2", xScale.range()[1] + 200)
+                .attr("x2", xScale.range()[1])
                 .attr("y1", d => yScale(d.timestamp ))
                 .attr("y2", d => yScale(d.timestamp ))
                 .attr("class", "rituals ritualLine")
 
         let ritualPTS = chartSVG.selectAll(".ritualPTS")
-            .data(ritualData.filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness"))
+            .data(ritualData)
+            // .data(ritualData.filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness"))
         ritualPTS.exit().remove()
         ritualPTS.enter().append("circle")
-            .attr("r", 2.5)
+            .attr("r", 3.5)
             .merge(ritualPTS)
                 .attr("class","rituals ritualPTS")
                 .attr("cx", xScale(0))
                 .attr("cy", d => yScale(d.timestamp ))
 
         let ritualText = chartSVG.selectAll(".ritualTXT")
-            .data(ritualData.filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness"))
+            // .data(ritualData.filter(d => d.ritual !== "random joke" && d.ritual !== "random mindfulness"))
+            .data(ritualData)
         ritualText.exit().remove()
         ritualText.enter().append("text")
             .on("click", d => {
-                let idName = "ritual" + d.timestamp.toString().split(".")[0]
+                console.log(d.marker)
+                console.log(d.timestamp)
+                console.log(d.content)
+                console.log(d.title)
+                let idName = "rituals" + d.timestamp.toString().split(".")[0]
                 if(document.getElementById(idName)){
                     let deet = d3.select("#" + idName)
+                    let deetLine = d3.select("#" + idName + "_line")
+                    var totalLength = deetLine.node().getTotalLength();
+
                     if(deet.style("display") == "none"){
-                        deet.style("display", "block")
+                        deetLine.style("stroke-width", 1.5)
+                        deetLine
+                            .attr("stroke-dasharray", totalLength + " " + totalLength)
+                            .attr("stroke-dashoffset", totalLength)
+                            .transition(t)
+                            .attr("stroke-dashoffset", 0)
+                            .on("end", function (d) {
+                                deetLine.attr("stroke-dasharray", 2)
+                                deet.style("display", "block")
+                            })
                     }
                     else{
                         deet.style("display", "none")
+                        deetLine.style("stroke-width", 0)
                     }
                 }
                 else{
-                    d3.select("#chart").append("div")
-                        .html("<p><b>Ritual: </b>" + d.ritual + "<br>" + "<p><b>Content: </b>" + d.content + "</p>")
-                        .attr("class", "deets rituals")
+                    let newDeet = d3.select("#chart").append("div")
+                        .html(d.content)
+                        .attr("class", "deets rituals ")
                         .attr("id", idName)
-                        .style("left", xScale.range()[1]+ 200)
-                        .style("top", yScale(d.timestamp ))
+                        .style("left", xScale.range()[1]+ 600)
+                        .style("top", yScale(d.timestamp))
+                        .style("display", "none")
+                        
+                    let deetLine = chartSVG.append("line")
+                        .attr("x1", document.getElementById("text" + d.timestamp).getBoundingClientRect().right + 5)
+                        .attr("x2", xScale.range()[1] + 600)
+                        .attr("y1", yScale(d.timestamp ))
+                        .attr("y2", yScale(d.timestamp ))
+                        .attr("class", "documentation deetLine rituals ")
+                        .attr("id", idName + "_line")
+                    var totalLength = deetLine.node().getTotalLength();
+
+                    deetLine
+                        .attr("stroke-dasharray", totalLength + " " + totalLength)
+                        .attr("stroke-dashoffset", totalLength)
+                        .transition(t)
+                        .attr("stroke-dashoffset", 0)
+                        .on("end", function () {
+                            newDeet.style("display", "block")
+                            newDeet.style("top", yScale(d.timestamp) - document.getElementById(idName).getBoundingClientRect().height / 2)
+                            deetLine.attr("stroke-dasharray", 2)
+                        })
                 }
             })
         .merge(ritualText)
             .transition(t)
             .attr("class", "rituals ritualTXT")
-            .attr("x", xScale.range()[1]+ 205)
-            .attr("y", d => yScale(d.timestamp ))
-            .text(d => "Hey Jenna, " + d.content.toLowerCase())
+            .attr("id", d=> "text" + d.timestamp)
+            .attr("x", xScale.range()[1] - 3)
+            .attr("y", d => yScale(d.timestamp ) + 4)
+            .text(d => {
+                if(d.ritual.toLowerCase() == "random mindfulness"){
+                    return "| Hey Jenna, " + d.content.toLowerCase()
+                }
+                else if (d.ritual.toLowerCase() == "random question"){
+                    return "| Hey Jenna, ask someone this question."
+                }
+                else if (d.ritual.toLowerCase() == "random joke"){
+                    return "| Hey Jenna, tell someone this joke."
+                }
+                else if (d.ritual.toLowerCase() == "sweet light walk"){
+                    return "| Hey Jenna, go out and meet your step goal."
+                }
+                else {
+                    return "| Hey Jenna, time for a " + d.ritual.toLowerCase()
+                }
+            })
 
         d3.selectAll(".documentation").remove()
 
@@ -546,7 +642,7 @@ getData().then(function(data){
                         return "<p>" + d.entry + "</p>"
                     }
                 })
-                .style("left", xScale.range()[1] + 800)
+                .style("left", xScale.range()[1] + 600)
     
                 .style("top", d => yScale(d.timestamp ))
                 .on("mouseover", d => {
@@ -560,7 +656,7 @@ getData().then(function(data){
             .enter()
             .append("line")
                 .attr("x1", xScale(0))
-                .attr("x2", xScale.range()[1] + 900)
+                .attr("x2", xScale.range()[1] + 600)
                 .attr("y1", d => yScale(d.timestamp ))
                 .attr("y2", d => yScale(d.timestamp ))
                 .attr("class", "documentation docLine stress")
