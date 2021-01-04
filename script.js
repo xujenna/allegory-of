@@ -123,7 +123,7 @@ getData().then(function (data) {
   let margin = { top: 75, right: 100, bottom: 60, left: 100 };
   let width = window.innerWidth * 0.8;
   let height = currentPredictions.length * 90;
-  let axisWidth = width * 0.4;
+  let axisWidth = width * 0.45;
 
   let chartSVG = d3
     .select('#charts')
@@ -752,7 +752,6 @@ getData().then(function (data) {
     interventionTXT.raise();
 
     d3.selectAll('.documentation').remove();
-    debugger;
     let docData = data['documentation'].filter(
       (d) =>
         d.timestamp < currentPredictions[1]['timestamp'] + 60 * 60 * 3 * 1000 &&
@@ -937,4 +936,18 @@ window.onscroll = function () {
     chartNav.style.visibility = 'hidden';
     chartNav.style.opacity = 0;
   }
+  let fitterHappierVid = document.getElementById('fitter-happier-vid');
+
+  if (isScrolledIntoView(fitterHappierVid)) {
+    fitterHappierVid.play();
+  } else {
+    fitterHappierVid.pause();
+  }
 };
+
+function isScrolledIntoView(element) {
+  var elementTop = element.getBoundingClientRect().top,
+    elementBottom = element.getBoundingClientRect().bottom;
+
+  return elementTop >= 0 && elementBottom <= window.innerHeight;
+}

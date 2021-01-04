@@ -7,7 +7,7 @@
         font-weight: 400;
         font-style: italic;
         margin: 0;
-        background-color: #fffbe5;
+        background-color: #f4f2e7;
       }
       .fullScreen {
         width: 100%;
@@ -45,7 +45,7 @@
         color: black;
       }
       #footer {
-        font-family: source-code-pro, monospace;
+        font-family: monospace;
         font-weight: 500;
         font-style: normal;
         background-color: black;
@@ -102,9 +102,10 @@
         text-transform: uppercase;
       }
       #intervention-tick {
-        font-family: source-code-pro, monospace;
+        font-family: monospace;
         font-style: normal;
         font-size: 13px;
+        letter-spacing: 0.5;
       }
       .domain {
         marker-end: url(#arrow);
@@ -220,7 +221,7 @@
         stroke-width: 0;
         cursor: pointer;
         font-size: 14px;
-        font-family: source-code-pro, monospace;
+        font-family: monospace;
         font-weight: 500;
         font-style: normal;
         letter-spacing: -0.6;
@@ -233,7 +234,7 @@
       }
       .documentation {
         position: absolute;
-        font-family: source-code-pro, monospace;
+        font-family: monospace;
         font-weight: 400;
         font-style: normal;
         font-size: 10.5px;
@@ -281,7 +282,7 @@
         transition: opacity 600ms, visibility 600ms;
       }
       #filterBox {
-        font-family: source-code-pro, monospace;
+        font-family: monospace;
         font-weight: 400;
         font-style: normal;
         font-size: 12px;
@@ -366,7 +367,7 @@
         transform-origin: left;
       }
       #caption-container {
-        font-family: source-code-pro, monospace;
+        font-family: monospace;
         font-weight: 400;
         font-style: normal;
         font-size: 10.5px;
@@ -402,7 +403,7 @@
       }
       #nextDayCaption,
       #prevDayCaption {
-        font-family: source-code-pro, monospace;
+        font-family: monospace;
         font-weight: 400;
         font-style: normal;
         line-height: 14px;
@@ -533,24 +534,46 @@
     <div id="chart-intro">
       <p>
         The first half of this project—data collection and mood prediction—is
-        <a href="https://xujenna.com/speakmemory/" target="new">documented here</a>. The final half—machine intervention
-        in response to the mood prediction—is documented in the following chart.
+        <a href="https://xujenna.com/speakmemory/" target="new">documented in detail here</a>. The final half—machine
+        intervention in response to the mood prediction—is documented below.
       </p>
       <p>
-        Each mood domain has a targeted set of interventions tailored to my personal preferences. For example, if my
-        stress levels were predicted to be worse than normal, the intervention would be a cortisol-lowering activity: a
-        meditation, a random imgur photo of a cute animal, a physical exercise, a field trip to a random coordinate in
-        Lower Manhattan, or one of my favorite poems or videos.
+        Mood predictions are sent to my noninteractive voice assistant, affectionately named Fitter Happier, which I
+        carried on me for about a month. Fitter Happier is comprised of a raspberry pi, a GSM hat, a SIM card, and a
+        lithium battery. The pi, running Node.js, speaks to me via a bluetooth earpiece.
       </p>
-      <p></p>
+      <br />
       <p>
-        Mood predictions are displayed as line graphs deviating from a rolling mean; in other words, better or worse
-        than my baseline mood.
+        <video width="100%" id="fitter-happier-vid" controls>
+          <source src="fitter-happier.mp4" type="video/mp4" />
+        </video>
+      </p>
+      <br />
+      <p>
+        The non-interactivity was intentional: I hoped that removing any opportunity to opt out, or exchange one
+        intervention for another, would ensure adherence (otherwise, the following chart would be embarrasingly barren).
       </p>
       <p>
-        On the worse (or right) side of the baseline, you'll see what my intervention machine—affectionately named
-        Fitter Happier—said to me upon the unfortunate prediction. Click on the intervention, and you'll see the
-        details.
+        Each mood prediction domain—morale, stress, fatigue, and general mood—has a targeted set of interventions
+        tailored to my personal preferences. For example, if my stress levels were predicted to be worse than normal,
+        the intervention would be a cortisol-lowering activity: a meditation, a random imgur photo tagged 'aww' (a
+        reliable source of cute animal photos), a physical exercise, a field trip to a random coordinate in Lower
+        Manhattan, or one of my favorite poems or videos.
+      </p>
+      <!-- <p>
+          Rituals
+      </p> -->
+      <p>
+        In the following chart, mood predictions are displayed as line graphs deviating from a rolling mean; in other
+        words, better or worse than my baseline mood.
+      </p>
+      <p>
+        On the worse (or right) side of the y-axis baseline, you'll see what Fitter Happier said to me upon the
+        unfortunate prediction. Click on the intervention, and you'll see the details.
+      </p>
+      <p>
+        Each chart is a day's worth of predictions and interventions. Click on the right or left arrows to move backward
+        or forward a day, respectively.
       </p>
     </div>
     <div id="description-key">
